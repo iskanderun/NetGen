@@ -16,9 +16,9 @@
 !     the links between the key nodes and their added neighbors, finds all connected
 !     components and calculates the size of largest component
 !
-! 4 - For each value of m (number of key nodes) in the interval mi < m < mf and 
+! 4 - For each value of m (number of key nodes) in the interval mi < m < mf and
 !     nfn (number of first neighbors) the program repeats the sampling
-!     nr times and calculates average values and variance of number of components 
+!     nr times and calculates average values and variance of number of components
 !     and size of largest component
 !
 ! Calls the following subroutines
@@ -64,7 +64,7 @@
 ! Marcus A.M. de Aguiar - 29/ago/2016
 
 ! To compile in linux or Mac:
-! f2py -c --fcompiler=gnu95 -m FortranSampling FortranSampling.f90 
+! f2py -c --fcompiler=gnu95 -m FortranSampling FortranSampling.f90
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -109,7 +109,7 @@ nr = key_nodes(4)
 anr = float(nr)
 nfn = int(anfn)
 
-! Set names for input and output files in sub-directories 
+! Set names for input and output files in sub-directories
 ! output_gen and output_sampled
 !
 ! name_net_net.txt  --  input network file
@@ -135,7 +135,7 @@ n = 0
 do while (k == 0)
 	read(10,*,iostat=k) i,j
 	if(i > n) n = i
-	if(j > n) n = j	
+	if(j > n) n = j
 end do
 
 ALLOCATE (a_aux(n,n))
@@ -270,7 +270,7 @@ do while (m <= mf)
     ALLOCATE (row(nsize),col(nsize))  ! index of nodes in subnetwork
 
 	! loop over different realizations for fixed m
-    do j=1,nr  
+    do j=1,nr
         v = 0
         idx = 0
 
@@ -318,7 +318,7 @@ do while (m <= mf)
             end if
             ! add neighbors randomly
             if(neigh_crit == 0) then
-                do l=1,mkk        
+                do l=1,mkk
                     call random_number(aux)
                     jsr = int(aux*mk) + 1          ! select random neighbor
                     do ll=1,mnew
@@ -343,7 +343,7 @@ do while (m <= mf)
                     end if
                 end do
             else
-                ! add neighbors according to chosen criterion 
+                ! add neighbors according to chosen criterion
                 ! w(i,j) = weight for link i-j according to exponential distribution
                 ! vw = vector containing the cummulative weights for the links v(k)-neighbors
                 ALLOCATE(vw(mk),vwaux(mk))
@@ -750,95 +750,6 @@ close(20)
 END SUBROUTINE fisherlog
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE NUMBSTR(ID,NUMBER,STR)
-CHARACTER*(*) STR
-INTEGER*4 ID,NUMBER
-CHARACTER*1 B
-INTEGER*4 IA0,N,I,IT
-IA0 = ICHAR('0')
-N = NUMBER
-DO I=1,ID
-J = ID + 1 - I
-IT = MOD(N,10)
-B = CHAR(IA0 + IT)
-STR(J:J) = B
-N = (N - IT)/10
-END DO
-RETURN
-END
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE clusters(jj,nf,maxsize,icount)
-INTEGER nf,i,j,nvm(1)
-INTEGER jj(nf,nf),vm(nf+1)
-INTEGER, ALLOCATABLE :: csizes(:)
-
-ALLOCATE (csizes(0:nf))
-nvm(1) = 1
-icount = 0
-csizes = 0
-itot = 0
-
-do while (nvm(1) /= nf+1)
-    if(itot == 0) then
-        vm = 0
-        vm(1) = 1
-        i = 1
-    else
-        loop1: do i=1,nf
-            do j=1,nvm(1)-1
-                if(i == vm(j)) cycle loop1
-            end do
-            vm(nvm(1)) = i
-            exit loop1
-        end do loop1
-    end if
-    CALL findtree(jj,vm,vm(nvm(1)),nf,nvm)
-    nvm(1:1) = minloc(vm)
-    icount = icount + 1
-    csizes(icount) = nvm(1)-1 - itot
-    itot = itot + csizes(icount)
-end do
-maxsize = maxval(csizes)
-END SUBROUTINE clusters
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-RECURSIVE SUBROUTINE findtree(jj,vm,n,nf,nvm)
-INTEGER, INTENT(IN) :: n
-INTEGER i,j,nvm(1),m
-INTEGER jj(nf,nf),v(nf),vm(nf+1)
-! find neighbors of node n
-CALL findneighbors (jj,n,nf,v,m)
-nvm(1:1) = minloc(vm) - 1
-loop1: DO i=1,m
-    DO j=1,nvm(1)
-        IF(v(i) == vm(j)) THEN
-            CYCLE loop1
-        END IF
-    END DO
-    IF(nvm(1)==nf) EXIT loop1
-        nvm(1) = nvm(1) + 1
-        vm(nvm(1)) = v(i)
-        CALL findtree(jj,vm,v(i),nf,nvm)
-END DO loop1
-RETURN
-END
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE findneighbors (jj,n,nf,v,m)
-INTEGER n,nf,i,m
-INTEGER jj(nf,nf),v(nf)
-m = 0
-DO i=1,nf
-    IF(jj(n,i)==1) THEN   !find neighbors of node n
-        m = m + 1         !add 1 to counter
-        v(m) = i          !store neighbor
-    END IF
-END DO
-RETURN
-END
 

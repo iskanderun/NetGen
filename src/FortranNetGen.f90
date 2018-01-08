@@ -94,7 +94,7 @@ do while(modtot < n)
 
 	if(modsize < mcutoff) then
 		cycle                      !if modsize < mcutoff try again
-	else if(n-modsize-modtot < mcutoff) then 
+	else if(n-modsize-modtot < mcutoff) then
 		modsize = n - modtot       !last module is adjusted to be larger than mcutoff
 	end if
 
@@ -427,7 +427,7 @@ DO while(nmod < submodcut)
 END DO
 alpha = log(1.0+1.0/(avk-1.0))
 do i=1,nmod
-	n1 = mmod*exp(-alpha*(i-1)) 
+	n1 = mmod*exp(-alpha*(i-1))
 	do j=1,n1
 		a(ini+i,ini+j+nmod) = 1
 		a(ini+j+nmod,ini+i) = 1
@@ -510,6 +510,7 @@ END DO
 RETURN
 END
 
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 SUBROUTINE clusters(jj,nf,maxsize,icount)
 INTEGER nf,i,j,nvm(1)
@@ -523,27 +524,28 @@ csizes = 0
 itot = 0
 
 do while (nvm(1) /= nf+1)
-if(itot == 0) then
-vm = 0
-vm(1) = 1
-i = 1
-else
-loop1: do i=1,nf
-do j=1,nvm(1)-1
-if(i == vm(j)) cycle loop1
-end do
-vm(nvm(1)) = i
-exit loop1
-end do loop1
-end if
-CALL findtree(jj,vm,vm(nvm(1)),nf,nvm)
-nvm(1:1) = minloc(vm)
-icount = icount + 1
-csizes(icount) = nvm(1)-1 - itot
-itot = itot + csizes(icount)
+    if(itot == 0) then
+        vm = 0
+        vm(1) = 1
+        i = 1
+    else
+        loop1: do i=1,nf
+            do j=1,nvm(1)-1
+                if(i == vm(j)) cycle loop1
+            end do
+            vm(nvm(1)) = i
+            exit loop1
+        end do loop1
+    end if
+    CALL findtree(jj,vm,vm(nvm(1)),nf,nvm)
+    nvm(1:1) = minloc(vm)
+    icount = icount + 1
+    csizes(icount) = nvm(1)-1 - itot
+    itot = itot + csizes(icount)
 end do
 maxsize = maxval(csizes)
 END SUBROUTINE clusters
+
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
