@@ -18,12 +18,12 @@ library(NetGen)
 #     log_net.txt
 
 # network name
-name = 'nested003'
+name = 'mixed'
 # network size and average module size
-n_modav = c(500,30)
+n_modav = c(500,50)
 # module and submodule minimum sizes
 # (submodules are used only for bipartite and tripartite networks)
-cutoffs = c(15,5)
+cutoffs = c(30, 10)
 # network type
 # 0 = mixed
 # 1 = random
@@ -33,13 +33,13 @@ cutoffs = c(15,5)
 # 42 = bi-partite random
 # 51 = tri-trophic bipartite nested-random
 # 52 = tri-trophic bipartite nested-bipartite nested
-net_type = 3
+net_type = 0
 # average degree
 net_degree = 10.0
 # global and local  network rewiring probabilities
-net_rewire = c(0.07,0.2)
+net_rewire = c(0.1,0.0)
 # module probabilities for types 1 to 51
 # used for constructing mixed networks, net_type = 0
-mod_probs = c(0.2, 0.0, 0.3, 0.3, 0.2, 0.0, 0.0)
+mod_probs = c(0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.1)
 
 netgen(name,n_modav,cutoffs,net_type,net_degree,net_rewire,mod_probs)

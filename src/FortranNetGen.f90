@@ -23,7 +23,7 @@ REAL, INTENT(IN), DIMENSION(2) :: rewindprobs
 REAL, INTENT(IN), DIMENSION(7) :: mod_probs
 INTEGER, ALLOCATABLE :: degree(:)
 INTEGER, DIMENSION(200) :: modsize_sav
-INTEGER :: iseed(12)
+!INTEGER :: iseed(12)
 CHARACTER*4 node1,node2
 CHARACTER*20 namenet
 CHARACTER*50 name_network,prop_network,adj_network
@@ -53,10 +53,11 @@ prop_network = "./output_gen/"//trim(namenet)//trim('_prop.txt')
 adj_network = "./output_gen/"//trim(namenet)//trim('_adj.txt')
 
 ! initialize random number generator
-OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD')
-    READ(50,*) iseed
-CLOSE(50)
-CALL RANDOM_SEED(put=iseed)
+!OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD')
+!    READ(50,*) iseed
+!CLOSE(50)
+CALL init_random_seed()
+!CALL RANDOM_SEED(put=iseed)
 
 
 ! cummulative probabilies
@@ -287,10 +288,10 @@ if (nclusters /= 1) then
 end if
 
 
-CALL RANDOM_SEED(get=iseed)
-OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD', POSITION='REWIND')
-WRITE (50,*) iseed
-close(50)
+!CALL RANDOM_SEED(get=iseed)
+!OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD', POSITION='REWIND')
+!WRITE (50,*) iseed
+!close(50)
 
 write(6,*) '----------------------------------------- '
 ! write adjacency matrix
@@ -484,7 +485,7 @@ ntri2 = mmod
 ntri3 = kmod
 ! last module connects with second module (ini = nmod)
 IF(nett == 1) THEN
-    CALL BIRANDMOD(ini+nmod,modtot)
+    CALL BIRANDMOD(ini+nmod,modtot,prewloc)
 ELSE IF(nett == 2) THEN
     CALL BINESTEDMOD(ini+nmod,modtot,prewloc)
 END IF
@@ -510,7 +511,6 @@ END DO
 RETURN
 END
 
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 SUBROUTINE clusters(jj,nf,maxsize,icount)
 INTEGER nf,i,j,nvm(1)
@@ -524,28 +524,27 @@ csizes = 0
 itot = 0
 
 do while (nvm(1) /= nf+1)
-    if(itot == 0) then
-        vm = 0
-        vm(1) = 1
-        i = 1
-    else
-        loop1: do i=1,nf
-            do j=1,nvm(1)-1
-                if(i == vm(j)) cycle loop1
-            end do
-            vm(nvm(1)) = i
-            exit loop1
-        end do loop1
-    end if
-    CALL findtree(jj,vm,vm(nvm(1)),nf,nvm)
-    nvm(1:1) = minloc(vm)
-    icount = icount + 1
-    csizes(icount) = nvm(1)-1 - itot
-    itot = itot + csizes(icount)
+if(itot == 0) then
+vm = 0
+vm(1) = 1
+i = 1
+else
+loop1: do i=1,nf
+do j=1,nvm(1)-1
+if(i == vm(j)) cycle loop1
+end do
+vm(nvm(1)) = i
+exit loop1
+end do loop1
+end if
+CALL findtree(jj,vm,vm(nvm(1)),nf,nvm)
+nvm(1:1) = minloc(vm)
+icount = icount + 1
+csizes(icount) = nvm(1)-1 - itot
+itot = itot + csizes(icount)
 end do
 maxsize = maxval(csizes)
 END SUBROUTINE clusters
-
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -584,3 +583,15 @@ END IF
 END DO
 RETURN
 END
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE init_random_seed()
+INTEGER :: i, n, clock
+INTEGER, DIMENSION(:), ALLOCATABLE :: seed
+CALL RANDOM_SEED(size = n)
+ALLOCATE(seed(n))
+CALL SYSTEM_CLOCK(COUNT=clock)
+seed = clock + 37 * (/ (i - 1, i = 1, n) /)
+CALL RANDOM_SEED(PUT = seed)
+DEALLOCATE(seed)
+END SUBROUTINE

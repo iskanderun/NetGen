@@ -5,3 +5,4 @@
 ^LICENSE\.md$
 ^\.travis\.yml$
 quicktest.R
+^\.httr-oauth$
