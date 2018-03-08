@@ -6,6 +6,34 @@
 \usage{
 netgen(name, n_modav, cutoffs, net_type, net_degree, net_rewire, mod_probs)
 }
+\arguments{
+\item{name}{a user-specified name for this network}
+
+\item{n_modav}{network size and average module size (integer vector, length 2)}
+
+\item{cutoffs}{module and submodule minimum sizes (integer vector, length 2).
+(submodules are used only for bipartite and tripartite networks)}
+
+\item{net_type}{integer indicating type, see details}
+
+\item{net_degree}{average degree of connection}
+
+\item{net_rewire}{global and local  network rewiring probabilities}
+
+\item{mod_probs}{module probabilities for types 1 to 51,
+used for constructing mixed networks, net_type = 0}
+}
 \description{
 netgen function
+}
+\details{
+network type
+0 = mixed
+1 = random
+2 = scalefree
+3 = nested
+41 = bi-partite nested
+42 = bi-partite random
+51 = tri-trophic bipartite nested-random
+52 = tri-trophic bipartite nested-bipartite nested
 }

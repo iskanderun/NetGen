@@ -6,3 +6,5 @@
 ^\.travis\.yml$
 quicktest.R
 ^\.httr-oauth$
+^input$
+^output_gen$
