@@ -5,7 +5,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! module defining global variables
 MODULE globals
-  INTEGER(4), ALLOCATABLE, SAVE :: a(:,:)
+  INTEGER, ALLOCATABLE, SAVE :: a(:,:)
   REAL, SAVE :: avk
   INTEGER, SAVE :: nmod,mmod,kmod,ntri1,ntri2,ntri3,nbi1,nbi2
   INTEGER, SAVE :: submodcut
@@ -74,7 +74,7 @@ an = float(n)
 ALLOCATE (a(n,n),degree(n))
 
 ! open file to save network properties
-OPEN(UNIT=15,FILE="./output_gen/prop_network.txt",STATUS='UNKNOWN')
+OPEN(UNIT=15,FILE=prop_network,STATUS='UNKNOWN')
 
 ! Generate the Modular Network
 
@@ -90,17 +90,17 @@ write(6,*) '----------------------------------------- '
 do while(modtot < n)
 
     CALL RANDOM_NUMBER(aux)
-    modsize = modav*log(1.0/aux)
-    if( modav == n) modsize = n    !if modsize = n build a single network
+    modsize = int(modav*log(1.0/aux))
+    if( modav == n) modsize = n         !if modsize = n build a single network
 
-	if(modsize < mcutoff) then
-		cycle                      !if modsize < mcutoff try again
-	else if(n-modsize-modtot < mcutoff) then
-		modsize = n - modtot       !last module is adjusted to be larger than mcutoff
-	end if
+    if(modsize < mcutoff) then
+        cycle                           !if modsize < mcutoff try again
+  else if(n-modsize-modtot < mcutoff) then
+    modsize = n - modtot            !last module is adjusted to be larger than mcutoff
+  end if
 
 
-	modtotold = modtot                 ! network size before adding module
+    modtotold = modtot                 ! network size before adding module
     modtot = modtot + modsize          ! current network size
     modcount = modcount + 1            ! count modules
     modsize_sav(modcount) = modsize    ! save module size
@@ -120,27 +120,27 @@ do while(modtot < n)
             write(6,*) modsize,'         scalefree '
             write(15,*) modsize,'scalefree module'
         ELSE IF(aux < pc3) THEN
-            CALL NESTEDMOD(ini,modtot,prewloc)
+            CALL NESTEDMOD(ini,modtot)
             write(6,*) modsize,'         nested '
             write(15,*) modsize,'nested module   '
         ELSE IF(aux < pc41) THEN
-            CALL BINESTEDMOD(ini,modtot,prewloc)
+            CALL BINESTEDMOD(ini,modtot)
             write(6,*) modsize,'         bipartite  nested      ','    sub-modules -->',nbi1,nbi2
             write(15,*) nbi1,'bipartite nested module 1'
             write(15,*) nbi2,'bipartite nested module 2'
         ELSE IF(aux < pc42) THEN
-            CALL BIRANDMOD(ini,modtot,prewloc)
+            CALL BIRANDMOD(ini,modtot)
             write(6,*) modsize,'         bipartite random       ','    sub-modules -->',nbi1,nbi2
             write(15,*) nbi1,'bipartite random module 1'
             write(15,*) nbi2,'bipartite random module 2'
         ELSE IF(aux < pc51) THEN
-            CALL TRIMOD(ini,modtot,1,prewloc)
+            CALL TRIMOD(ini,modtot,1)
             write(6,*) modsize,'         tri-trophic random     ','    sub-modules -->',ntri1,ntri2,ntri3
             write(15,*) ntri1,'tri-trophic random module 1'
             write(15,*) ntri2,'tri-trophic random module 2'
             write(15,*) ntri3,'tri-trophic random module 3'
         ELSE IF(aux < pc52) THEN
-            CALL TRIMOD(ini,modtot,2,prewloc)
+            CALL TRIMOD(ini,modtot,2)
             write(6,*) modsize,'         tri-trophic bipartite  ','    sub-modules -->',ntri1,ntri2,ntri3
             write(15,*) ntri1,'tri-trophic bipartite module 1'
             write(15,*) ntri2,'tri-trophic bipartite module 2'
@@ -148,32 +148,32 @@ do while(modtot < n)
         END IF
     ELSE IF(nettype == 1) THEN
         CALL RANDOMMOD(ini,modtot)
-		write(6,*) modsize,'         random '
+    write(6,*) modsize,'         random '
         write(15,*) modsize,'random module   '
     ELSE IF(nettype == 2) THEN
         CALL SFMOD(ini,modtot)
-		write(6,*) modsize,'         scalefree '
+    write(6,*) modsize,'         scalefree '
         write(15,*) modsize,'scalefree module'
     ELSE IF(nettype == 3) THEN
-        CALL NESTEDMOD(ini,modtot,prewloc)
-		write(6,*) modsize,'         nested '
+        CALL NESTEDMOD(ini,modtot)
+    write(6,*) modsize,'         nested '
         write(15,*) modsize,'nested module   '
     ELSE IF(nettype == 41) THEN
-        CALL BINESTEDMOD(ini,modtot,prewloc)
-		write(6,*) modsize,'   bipartite nested','    sub-modules -->',nbi1,nbi2
+        CALL BINESTEDMOD(ini,modtot)
+    write(6,*) modsize,'   bipartite nested','    sub-modules -->',nbi1,nbi2
         write(15,*) modsize,'bipartite module'
     ELSE IF(nettype == 42) THEN
-        CALL BIRANDMOD(ini,modtot,prewloc)
+        CALL BIRANDMOD(ini,modtot)
         write(6,*) modsize,'   bipartite random','    sub-modules -->',nbi1,nbi2
         write(15,*) modsize,'bipartite module'
     ELSE IF(nettype == 51) THEN
-        CALL TRIMOD(ini,modtot,1,prewloc)
+        CALL TRIMOD(ini,modtot,1)
         write(6,*) modsize,'         tri-trophic random,','    sub-modules -->',ntri1,ntri2,ntri3
         write(15,*) ntri1,'tri-trophic random module 1'
         write(15,*) ntri2,'tri-trophic random module 2'
         write(15,*) ntri3,'tri-trophic random module 3'
     ELSE IF(nettype == 52) THEN
-        CALL TRIMOD(ini,modtot,2,prewloc)
+        CALL TRIMOD(ini,modtot,2)
         write(6,*) modsize,'         tri-trophic bipartite,','    sub-modules -->',ntri1,ntri2,ntri3
         write(15,*) ntri1,'tri-trophic bipartite module 1'
         write(15,*) ntri2,'tri-trophic bipartite module 2'
@@ -213,10 +213,10 @@ end do
 
 ! reconnect overall links to connect the modules with prew
 do i=1,n
-	do j=i+1,n
-    	if(a(i,j) == 1) then
-        	CALL RANDOM_NUMBER(aux)
-          	IF(aux < prew) THEN
+  do j=i+1,n
+      if(a(i,j) == 1) then
+          CALL RANDOM_NUMBER(aux)
+            IF(aux < prew) THEN
                 a(i,j) = 0
                 a(j,i) = 0
                 call RANDOM_NUMBER(aux)
@@ -237,27 +237,27 @@ end do
 ! check for disconnected nodes and randomly reconnect them
 degree = sum(a,dim=1)
 do i=1,n
-	if(degree(i) == 0) then
-		jp = i
-		do while (jp == i)
-			CALL RANDOM_NUMBER(aux)
-			jp = int(n*aux)+1
-    		a(i,jp) = 1
-    		a(jp,i) = 1
-		end do
+  if(degree(i) == 0) then
+    jp = i
+    do while (jp == i)
+      CALL RANDOM_NUMBER(aux)
+      jp = int(n*aux)+1
+        a(i,jp) = 1
+        a(jp,i) = 1
+    end do
     end if
 end do
 
 ! save network to file
 OPEN(UNIT=10,FILE="./output_gen/network.txt",STATUS='UNKNOWN')
 do i=1,n
-	CALL NUMBSTR(4,i,node1)
-	do j=i+1,n
-		if(a(i,j)==1) then
-			CALL NUMBSTR(4,j,node2)
-        		write(10,110) node1,node2
-    		end if
- 	end do
+  CALL NUMBSTR(4,i,node1)
+  do j=i+1,n
+    if(a(i,j)==1) then
+      CALL NUMBSTR(4,j,node2)
+            write(10,110) node1,node2
+        end if
+   end do
 end do
 CLOSE(10)
 110 FORMAT(A4,1x,A4)
@@ -320,13 +320,13 @@ ifin = modtot
 modsize = ifin - ini
 p = avk/float(modsize-1)
 do i=iini,ifin
-	do j=i+1,ifin
-		CALL RANDOM_NUMBER(aux)
-			if( aux < p) then
+  do j=i+1,ifin
+    CALL RANDOM_NUMBER(aux)
+      if( aux < p) then
                 a(i,j) = 1
                 a(j,i) = 1
             end if
-	end do
+  end do
 end do
 return
 end
@@ -335,6 +335,7 @@ end
 SUBROUTINE SFMOD(ini,modtot)
 USE globals
 INTEGER, ALLOCATABLE ::  co(:),sco(:),id(:),b(:,:)
+INTEGER sm
 modsize = modtot - ini
 m = int(avk)
 m0 = m+1
@@ -362,7 +363,7 @@ do l=m0,modsize-1
         sco(i) = sm  ! vector of partial sums of con/vities
     end do
     k = 1
-3	do
+3  do
         call random_number(aux2)
         j = int(aux2*sco(l)) + 1  ! Random integer in [1, sum of all cone/ties]
         id(k:k) = minloc(abs(sco - j))
@@ -390,49 +391,49 @@ do l=m0,modsize-1
 end do
 ! place network b as a block in network a
 do i=1,modsize
-	do j=1,modsize
-		a(ini+i,ini+j) = b(i,j)
-	end do
+  do j=1,modsize
+    a(ini+i,ini+j) = b(i,j)
+  end do
 end do
 DEALLOCATE(b,co,sco,id)
 return
 end
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE NESTEDMOD(ini,modtot,prewloc)
+SUBROUTINE NESTEDMOD(ini,modtot)
 USE globals
 ifin = modtot
 modsize = ifin-ini
 alpha = log(1.0+1.0/avk)  ! populate module
 do i=1,modsize
-	n1 = modsize*exp(-alpha*(i-1))
-	do j=i+1,n1
-		a(ini+i,ini+j) = 1
-		a(ini+j,ini+i) = 1
-	end do
+  n1 = int(modsize*exp(-alpha*(i-1)))
+  do j=i+1,n1
+    a(ini+i,ini+j) = 1
+    a(ini+j,ini+i) = 1
+  end do
 end do
 
 return
 end
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE BINESTEDMOD(ini,modtot,prewloc)
+SUBROUTINE BINESTEDMOD(ini,modtot)
 USE globals
 modsize = modtot-ini
 nmod = 0
 DO while(nmod < submodcut)
-	CALL RANDOM_NUMBER(aux)   !split module in two similar blocks
-	eps = 0.5 + 0.2*(aux-0.5)
-	nmod = int(eps*modsize)
-	mmod = modsize - nmod
+  CALL RANDOM_NUMBER(aux)   !split module in two similar blocks
+  eps = 0.5 + 0.2*(aux-0.5)
+  nmod = int(eps*modsize)
+  mmod = modsize - nmod
 END DO
 alpha = log(1.0+1.0/(avk-1.0))
 do i=1,nmod
-	n1 = mmod*exp(-alpha*(i-1))
-	do j=1,n1
-		a(ini+i,ini+j+nmod) = 1
-		a(ini+j+nmod,ini+i) = 1
-	end do
+  n1 = int(mmod*exp(-alpha*(i-1)))
+  do j=1,n1
+    a(ini+i,ini+j+nmod) = 1
+    a(ini+j+nmod,ini+i) = 1
+  end do
 end do
 nbi1 = nmod
 nbi2 = mmod
@@ -441,7 +442,7 @@ end
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE BIRANDMOD(ini,modtot,prewloc)
+SUBROUTINE BIRANDMOD(ini,modtot)
 USE globals
 modsize = modtot-ini
 nmod = 0
@@ -470,7 +471,7 @@ end
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE TRIMOD(ini,modtot,nett,prewloc)
+SUBROUTINE TRIMOD(ini,modtot,nett)
 USE globals
 modsize = modtot-ini
 ! define block sizes
@@ -479,15 +480,15 @@ eps = 0.66 + 0.2*(aux-0.5)
 imod = int(eps*modsize)
 kmod = modsize - imod
 ! first module is a bi-partite network with sizes nmod, mmod
-CALL BINESTEDMOD(ini,modtot-kmod,prewloc)
+CALL BINESTEDMOD(ini,modtot-kmod)
 ntri1 = nmod
 ntri2 = mmod
 ntri3 = kmod
 ! last module connects with second module (ini = nmod)
 IF(nett == 1) THEN
-    CALL BIRANDMOD(ini+nmod,modtot,prewloc)
+    CALL BIRANDMOD(ini+nmod,modtot)
 ELSE IF(nett == 2) THEN
-    CALL BINESTEDMOD(ini+nmod,modtot,prewloc)
+    CALL BINESTEDMOD(ini+nmod,modtot)
 END IF
 return
 end
