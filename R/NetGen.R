@@ -36,9 +36,9 @@ netgen <- function(name,n_modav,cutoffs,net_type,net_degree,net_rewire,mod_probs
     as.integer(n_modav),
     as.integer(cutoffs),
     as.integer(net_type),
-    net_degree,
-    net_rewire,
-    mod_probs
+    as.single(net_degree),
+    as.single(net_rewire),
+    as.single(mod_probs)
   )
 }
 #
