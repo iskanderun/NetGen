@@ -24,22 +24,37 @@
 #' @importFrom stats runif
 #' @useDynLib NetGen
 #' @export
-netgen <- function(name,n_modav,cutoffs,net_type,net_degree,net_rewire,mod_probs){
-  dir.create("output_gen", FALSE)
-  writeLines("", "output_gen/log_gen.txt")
-  .Fortran(
-    "subnetgen",
-    name,
-    as.integer(n_modav),
-    as.integer(cutoffs),
-    as.integer(net_type),
-    as.single(net_degree),
-    as.single(net_rewire),
-    as.single(mod_probs)
-  )
-  M <- scan("output_gen/adj_network.txt")
-  matrix(M, sqrt(length(M)))
-}
+netgen <-
+  function(name = "netgen",
+           n_modav = c(500, 50),
+           cutoffs = c(30, 10),
+           net_type = 1,
+           net_degree = 10,
+           net_rewire = c(0.1,0.0),
+           mod_probs = 0) {
+    dir.create("output_gen", FALSE)
+    writeLines("", "output_gen/log_gen.txt")
+
+    .Fortran(
+      "subnetgen",
+      name,
+      as.integer(n_modav),
+      as.integer(cutoffs),
+      as.integer(net_type),
+      as.single(net_degree),
+      as.single(net_rewire),
+      as.single(mod_probs)
+    )
+    #M <- scan("output_gen/adj_network.txt")
+    #matrix(M, sqrt(length(M)))
+
+    read.table(
+      "output_gen/network.txt",
+      stringsAsFactors = FALSE,
+      col.names = c("from", "to")
+    )
+
+  }
 #
 #
 #  -------- end network generation ---------
@@ -54,4 +69,3 @@ netgen <- function(name,n_modav,cutoffs,net_type,net_degree,net_rewire,mod_probs
 #G=nx.Graph()
 #array = np.loadtxt("./output_gen/"+name+"_net.txt")
 #G.add_edges_from(array)
-

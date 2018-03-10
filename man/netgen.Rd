@@ -4,7 +4,8 @@
 \alias{netgen}
 \title{netgen}
 \usage{
-netgen(name, n_modav, cutoffs, net_type, net_degree, net_rewire, mod_probs)
+netgen(name = "netgen", n_modav = c(500, 50), cutoffs = c(30, 10),
+  net_type = 1, net_degree = 10, net_rewire = c(0.1, 0), mod_probs = 0)
 }
 \arguments{
 \item{name}{a user-specified name for this network}
