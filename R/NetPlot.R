@@ -14,7 +14,7 @@ adj_plot <- function(graph){
 
   edge_list <- igraph::get.data.frame(graph, what = "edges")
 
-  ggplot(edge_list, aes(x = from, y = to)) +
+  ggplot(edge_list, aes_string(x = "from", y = "to")) +
       geom_raster() + theme_bw() +
       scale_x_discrete(drop = FALSE) +
       scale_y_discrete(drop = FALSE) +

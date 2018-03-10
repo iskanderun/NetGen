@@ -10,3 +10,4 @@ quicktest.R
 ^output_gen$
 ^README\.Rmd$
 ^README-.*\.png$
+^Package-New$

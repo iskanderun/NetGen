@@ -22,6 +22,7 @@
 #' 51 = tri-trophic bipartite nested-random
 #' 52 = tri-trophic bipartite nested-bipartite nested
 #' @importFrom igraph graph.data.frame
+#' @importFrom utils read.table
 #' @return an `igraph` object
 #' @useDynLib NetGen
 #' @export

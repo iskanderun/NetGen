@@ -4,16 +4,16 @@
 \alias{adj_plot}
 \title{Plot network adjacency matrix}
 \usage{
-adj_plot(M, directed = TRUE)
+adj_plot(graph)
 }
 \arguments{
-\item{M}{an igraph object}
+\item{graph}{an igraph object}
 }
 \description{
 Plot network adjacency matrix
 }
 \examples{
-M <- netgen()
-adj_plot(M)
+graph <- netgen()
+adj_plot(graph)
 
 }
