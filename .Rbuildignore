@@ -12,3 +12,4 @@ quicktest.R
 ^README-.*\.png$
 ^Package-New$
 ^src/.*\.mod$
+^codecov\.yml$

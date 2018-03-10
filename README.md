@@ -1,6 +1,10 @@
 
 [![Travis-CI Build
 Status](https://travis-ci.org/cboettig/NetGen.svg?branch=master)](https://travis-ci.org/cboettig/NetGen)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/cboettig/NetGen/master.svg)](https://codecov.io/github/cboettig/NetGen?branch=master)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/NetGen)](https://cran.r-project.org/package=NetGen)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
