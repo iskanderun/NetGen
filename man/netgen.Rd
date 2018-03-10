@@ -4,8 +4,8 @@
 \alias{netgen}
 \title{netgen}
 \usage{
-netgen(name = "netgen", n_modav = c(500, 50), cutoffs = c(30, 10),
-  net_type = 1, net_degree = 10, net_rewire = c(0.1, 0), mod_probs = 0)
+netgen(name = "netgen", n_modav = c(50, 5), cutoffs = c(3, 0),
+  net_type = 3, net_degree = 4, net_rewire = c(0.1, 0), mod_probs = 0)
 }
 \arguments{
 \item{name}{a user-specified name for this network}
@@ -23,6 +23,9 @@ netgen(name = "netgen", n_modav = c(500, 50), cutoffs = c(30, 10),
 
 \item{mod_probs}{module probabilities for types 1 to 51,
 used for constructing mixed networks, net_type = 0}
+}
+\value{
+an `igraph` object
 }
 \description{
 netgen function

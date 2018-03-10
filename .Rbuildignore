@@ -8,3 +8,5 @@ quicktest.R
 ^\.httr-oauth$
 ^input$
 ^output_gen$
+^README\.Rmd$
+^README-.*\.png$

@@ -4,7 +4,7 @@ Title: NetGen and NetSampler
 Description: What the package does (one paragraph).
 Authors@R: c(person("Erica", "Newman", email = "newmane@berkeley.edu", role = c("aut", "cre")), 
              person("Marcus", "deAguiar", role = "aut"), 
-             person("Carl", "Boettiger", role= "ctb"))
+             person("Carl", "Boettiger", role= "aut"))
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

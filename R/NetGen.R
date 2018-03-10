@@ -21,16 +21,17 @@
 #' 42 = bi-partite random
 #' 51 = tri-trophic bipartite nested-random
 #' 52 = tri-trophic bipartite nested-bipartite nested
-#' @importFrom stats runif
+#' @importFrom igraph graph.data.frame
+#' @return an `igraph` object
 #' @useDynLib NetGen
 #' @export
 netgen <-
   function(name = "netgen",
-           n_modav = c(500, 50),
-           cutoffs = c(30, 10),
+           n_modav = c(50, 10),
+           cutoffs = c(3, 0),
            net_type = 1,
            net_degree = 10,
-           net_rewire = c(0.1,0.0),
+           net_rewire = c(0.3,0.0),
            mod_probs = 0) {
     dir.create("output_gen", FALSE)
     writeLines("", "output_gen/log_gen.txt")
@@ -48,12 +49,14 @@ netgen <-
     #M <- scan("output_gen/adj_network.txt")
     #matrix(M, sqrt(length(M)))
 
-    read.table(
+    M <- read.table(
       "output_gen/network.txt",
       stringsAsFactors = FALSE,
       col.names = c("from", "to")
     )
-
+    ## Return a basic igraph graph
+    ## User can always toogle as.directed, as.undirected
+    graph.data.frame(M, directed = FALSE)
   }
 #
 #

@@ -1,25 +1,37 @@
+---
+output: github_document
+---
 
-[![Travis-CI Build
-Status](https://travis-ci.org/cboettig/NetGen.svg?branch=master)](https://travis-ci.org/cboettig/NetGen)
+[![Travis-CI Build Status](https://travis-ci.org/cboettig/NetGen.svg?branch=master)](https://travis-ci.org/cboettig/NetGen)
+
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
 # NetGen
+
 
 ## Installation
 
 You can install NetGen from github with:
 
-``` r
+```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("cboettig/NetGen")
 ```
 
 ## Example
 
-This is a basic example which generates a network.
+This is a basic example which generates a network. 
 
-``` r
+```{r example, output="hide"}
 library(NetGen)
 network <- netgen(n_modav = c(500, 10), 
                   cutoffs = c(50, 10), 
@@ -29,19 +41,18 @@ network <- netgen(n_modav = c(500, 10),
                   mod_probs = c(0.2, 0.0, 0.3, 0.3, 0.2, 0.0, 0.0))
 ```
 
-``` r
+
+
+```{r}
 adj_plot(network)
 ```
 
-![](README-unnamed-chunk-2-1.png)<!-- -->
+Network is returned as an `igraph` network object, which can be plotted in the usual ways; e.g. as an adjacency matrix: 
 
-Network is returned as an `igraph` network object, which can be plotted
-in the usual ways; e.g. as an adjacency matrix:
-
-``` r
+```{r}
 plot(network, vertex.size= 0, vertex.label=NA, 
      edge.color = rgb(.1,0,1,.05), vertex.shape="none", 
      edge.curved =TRUE)
 ```
 
-![](README-unnamed-chunk-3-1.png)<!-- -->
+
