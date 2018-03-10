@@ -11,3 +11,4 @@ quicktest.R
 ^README\.Rmd$
 ^README-.*\.png$
 ^Package-New$
+^src/.*\.mod$
