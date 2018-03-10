@@ -4,8 +4,9 @@
 #'
 #' @param graph an igraph object
 #' @export
-#' @import ggplot2
-#' @importFrom igraph graph.data.frame get.data.frame
+#' @importFrom ggplot2 aes_string ggplot scale_x_discrete scale_y_discrete
+#' @importFrom ggplot2 element_blank theme_bw xlab ylab theme geom_raster
+#' @importFrom igraph get.data.frame
 #' @examples
 #' graph <- netgen()
 #' adj_plot(graph)

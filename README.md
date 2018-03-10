@@ -21,7 +21,8 @@ devtools::install_github("cboettig/NetGen")
 
 ## Example
 
-This is a basic example which generates a network.
+This is a basic example which generates a network. See `?netgen` for
+documentation describing the parameter arguments.
 
 ``` r
 library(NetGen)
@@ -33,14 +34,16 @@ network <- netgen(n_modav = c(500, 10),
                   mod_probs = c(0.2, 0.0, 0.3, 0.3, 0.2, 0.0, 0.0))
 ```
 
+We can plot the resulting `igraph` as an adjacency matrix:
+
 ``` r
 adj_plot(network)
 ```
 
 ![](README-unnamed-chunk-2-1.png)<!-- -->
 
-Network is returned as an `igraph` network object, which can be plotted
-in the usual ways; e.g. as an adjacency matrix:
+Network `igraph` objects can also be plotted using the standard `igraph`
+plotting routines, for example:
 
 ``` r
 plot(network, vertex.size= 0, vertex.label=NA, 
