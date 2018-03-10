@@ -49,7 +49,7 @@ netgen <-
     )
     #M <- scan("output_gen/adj_network.txt")
     #matrix(M, sqrt(length(M)))
-    M <- scan("output_gen/adj_network.txt")
+    M <- scan("output_gen/adj_network.txt",  quiet = TRUE)
     M <- matrix(M, sqrt(length(M)))
     igraph::graph_from_adjacency_matrix(M)
 
