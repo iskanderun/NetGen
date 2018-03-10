@@ -4,9 +4,9 @@
 \alias{NetSampler}
 \title{Network Sampling Routine}
 \usage{
-NetSampler(net_name, out_name, crit, key_nodes = c(10, 50, 10, 1000),
-  anfn = 0.5, numb_hidden = 0, hidden_modules = c(1, 5, 6, 0, 0, 0, 0, 0,
-  0, 0))
+NetSampler(net_name = "samplenetwork.txt", out_name = "sampleout.txt",
+  crit = c(1, 0), key_nodes = c(10, 50, 10, 1000), anfn = 0.5,
+  numb_hidden = 0, hidden_modules = c(1, 5, 6, 0, 0, 0, 0, 0, 0, 0))
 }
 \arguments{
 \item{net_name}{a name for the network}

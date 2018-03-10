@@ -21,7 +21,7 @@
 #' 42 = bi-partite random
 #' 51 = tri-trophic bipartite nested-random
 #' 52 = tri-trophic bipartite nested-bipartite nested
-#' @importFrom igraph graph.data.frame
+#' @importFrom igraph graph.data.frame graph_from_adjacency_matrix
 #' @importFrom utils read.table
 #' @return an `igraph` object
 #' @useDynLib NetGen
@@ -49,15 +49,18 @@ netgen <-
     )
     #M <- scan("output_gen/adj_network.txt")
     #matrix(M, sqrt(length(M)))
+    M <- scan("output_gen/adj_network.txt")
+    M <- matrix(M, sqrt(length(M)))
+    igraph::graph_from_adjacency_matrix(M)
 
-    M <- read.table(
-      "output_gen/network.txt",
-      stringsAsFactors = FALSE,
-      col.names = c("from", "to")
-    )
+    #M <- read.table(
+    #  "output_gen/network.txt",
+    #  stringsAsFactors = FALSE,
+    #  col.names = c("from", "to")
+    #)
     ## Return a basic igraph graph
     ## User can always toogle as.directed, as.undirected
-    graph.data.frame(M, directed = FALSE)
+    #graph.data.frame(M, directed = FALSE)
   }
 #
 #
