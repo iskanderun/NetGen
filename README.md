@@ -26,9 +26,9 @@ documentation describing the parameter arguments.
 
 ``` r
 library(NetGen)
-network <- netgen(n_modav = c(500, 10), 
-                  cutoffs = c(50, 10), 
-                  net_type = 3, 
+network <- netgen(n_modav = c(250, 10), 
+                  cutoffs = c(40, 10), 
+                  net_type = 41, 
                   net_degree = 10,
                   net_rewire = c(0.07,0.2),
                   mod_probs = c(0.2, 0.0, 0.3, 0.3, 0.2, 0.0, 0.0))
@@ -47,7 +47,7 @@ plotting routines, for example:
 
 ``` r
 plot(network, vertex.size= 0, vertex.label=NA, 
-     edge.color = rgb(.1,0,1,.05), vertex.shape="none", 
+     edge.color = rgb(.22,0,1,.01), vertex.shape="none", 
      edge.curved =TRUE)
 ```
 
