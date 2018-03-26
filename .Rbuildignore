@@ -1,0 +1,17 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^python$
+^LICENSE$
+^LICENSE\.md$
+^\.travis\.yml$
+quicktest.R
+^\.httr-oauth$
+^input$
+^output_gen$
+^README\.Rmd$
+^README-.*\.png$
+^Package-New$
+^src/.*\.mod$
+^codecov\.yml$
+^ignore$
+

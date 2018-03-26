@@ -16,9 +16,9 @@
 !     the links between the key nodes and their added neighbors, finds all connected
 !     components and calculates the size of largest component
 !
-! 4 - For each value of m (number of key nodes) in the interval mi < m < mf and 
+! 4 - For each value of m (number of key nodes) in the interval mi < m < mf and
 !     nfn (number of first neighbors) the program repeats the sampling
-!     nr times and calculates average values and variance of number of components 
+!     nr times and calculates average values and variance of number of components
 !     and size of largest component
 !
 ! Calls the following subroutines
@@ -64,7 +64,7 @@
 ! Marcus A.M. de Aguiar - 29/ago/2016
 
 ! To compile in linux or Mac:
-! f2py -c --fcompiler=gnu95 -m FortranSampling FortranSampling.f90 
+! f2py -c --fcompiler=gnu95 -m FortranSampling FortranSampling.f90
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -75,15 +75,15 @@ INTEGER, ALLOCATABLE, SAVE :: a(:,:),jj(:,:)
 INTEGER, ALLOCATABLE, SAVE :: a_aux(:,:)
 INTEGER, ALLOCATABLE, SAVE :: module_status(:),modsize(:),idx(:)
 INTEGER, SAVE :: n,imods,mnew
-CHARACTER*50, SAVE :: name_links,name_nodes,name_sampled
+CHARACTER*60, SAVE :: name_links,name_nodes,name_sampled
 
 END MODULE globalvar
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 SUBROUTINE subsampling(net_name,out_name,crit,key_nodes,anfn,numb_hidden,hidden_modules)
 USE globalvar
-CHARACTER*20, INTENT(IN) :: net_name
-CHARACTER*20, INTENT(IN) :: out_name
+CHARACTER*40, INTENT(IN) :: net_name
+CHARACTER*40, INTENT(IN) :: out_name
 INTEGER, INTENT(IN), DIMENSION(2) :: crit
 INTEGER, INTENT(IN), DIMENSION(4) :: key_nodes
 INTEGER, INTENT(IN) :: numb_hidden
@@ -92,10 +92,11 @@ REAL, INTENT(IN) :: anfn
 INTEGER, ALLOCATABLE :: v(:)
 INTEGER, ALLOCATABLE :: vk(:),row(:),col(:)
 INTEGER, ALLOCATABLE :: maxsizev(:),nclustersv(:),mnewv(:),hiddenv(:)
+INTEGER, ALLOCATABLE :: degori(:),degsamp(:)
 REAL, ALLOCATABLE :: w(:,:),vw(:),vwaux(:),prob_aux(:)
-INTEGER :: iseed(12),js(1),hidden,hiddentot
+INTEGER :: js(1),hidden,hiddentot
 CHARACTER*4 node1,node2
-CHARACTER*50 name_network,prop_network,out_file
+CHARACTER*60 name_network,prop_network,out_file
 
 icrit = crit(1)
 neigh_crit = crit(2)
@@ -109,7 +110,7 @@ nr = key_nodes(4)
 anr = float(nr)
 nfn = int(anfn)
 
-! Set names for input and output files in sub-directories 
+! Set names for input and output files in sub-directories
 ! output_gen and output_sampled
 !
 ! name_net_net.txt  --  input network file
@@ -133,9 +134,9 @@ k = 0
 n = 0
 ! find network size
 do while (k == 0)
-	read(10,*,iostat=k) i,j
-	if(i > n) n = i
-	if(j > n) n = j	
+  read(10,*,iostat=k) i,j
+  if(i > n) n = i
+  if(j > n) n = j
 end do
 
 ALLOCATE (a_aux(n,n))
@@ -149,18 +150,20 @@ if(neigh_crit == 1) then
 end if
 
 ! initialize random number generator
-OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD')
-READ(50,*) iseed
-CLOSE(50)
-CALL RANDOM_SEED(put=iseed)
+!OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD')
+!READ(50,*) iseed
+!CLOSE(50)
+!CALL RANDOM_SEED(put=iseed)
+CALL init_random_seed()
+
 
 REWIND(UNIT=10)
 k = 0
 a = 0
 do while (k == 0)
-	read(10,*,iostat=k) i,j
+  read(10,*,iostat=k) i,j
     a(i,j) = 1
-	a(j,i) = 1
+  a(j,i) = 1
     if(neigh_crit == 1) then
         CALL RANDOM_NUMBER(aux)  ! assign weights to links
         auxw = log(1.0/aux)      ! following exponential distribution
@@ -169,6 +172,9 @@ do while (k == 0)
     end if
 end do
 CLOSE(10)
+
+ALLOCATE(degori(n))
+degori = sum(a,DIM=1)
 
 ALLOCATE (key_prob(n),prob_aux(n))
 key_prob = 0.0
@@ -205,11 +211,6 @@ end if
 ! calcule total number of hidden nodes
 hiddentot = sum(modsize*module_status)
 
-!
-! The output of this subroutine is the vector "key_prob" containing the
-! cummulative probability that nodes will be sampled.
-! For random sampling key_prob(i) = i/n (if no modules are skipped)
-
 ! average connectivity
 icon = SUM(a)
 av_degree = float(icon)/float(n)
@@ -219,27 +220,32 @@ call clusters(a,n,maxsize,nclusters)
 
 
 ! print basic info on screen
-print *,
-print *, 'network size =',n
-print *, 'average degree =',av_degree
-print *, 'total number of clusters =',nclusters
-print *, 'size of largest cluster =',maxsize
-print *,
-print *, 'hidden modules are      ',(hidden_modules(i),i=1,numb_hidden)
-if(numb_hidden /= 0) then
-    print *, 'number of hidden nodes = ',(modsize(hidden_modules(i)),'  +',i=1,numb_hidden-1), &
-                modsize(hidden_modules(numb_hidden)),'    = ',hiddentot
-end if
-print *,
+!print *,
+!print *, 'network size =',n
+!print *, 'average degree =',av_degree
+!print *, 'total number of clusters =',nclusters
+!print *, 'size of largest cluster =',maxsize
+!print *,
+!print *, 'hidden modules are      ',(hidden_modules(i),i=1,numb_hidden)
+!if(numb_hidden /= 0) then
+!    print *, 'number of hidden nodes = ',(modsize(hidden_modules(i)),'  +',i=1,numb_hidden-1), &
+!                modsize(hidden_modules(numb_hidden)),'    = ',hiddentot
+!end if
+!print *,
 
 ! Calculate probabilities according to sampling criterion
 !
 CALL SAMPLING_CRITERION(icrit)
+!
+! The output of this subroutine is the vector "key_prob" containing the
+! cummulative probability that nodes will be sampled.
+! For random sampling key_prob(i) = i/n (if no modules are skipped)
 
-print *,
-print *, '   m       size    rms      larg-comp rms      rel-larg-comp rms    #-comps rms     hidden-nodes  rms'
-print *, ' -------------------------------------------------------------------------------------------------------'
-print *,
+
+!print *,
+!print *, '   m       size    rms      larg-comp rms      rel-larg-comp rms    #-comps rms     hidden-nodes  rms'
+!print *, ' -------------------------------------------------------------------------------------------------------'
+!print *,
 
 
 ! loop over m from mi to mf at steps of mstep
@@ -253,10 +259,13 @@ write(10,*)
 
 ALLOCATE (maxsizev(nr),nclustersv(nr),mnewv(nr),hiddenv(nr))
 
+OPEN(UNIT=27,FILE='degree-correlation-key.dat',STATUS='UNKNOWN')
+OPEN(UNIT=28,FILE='degree-correlation-added.dat',STATUS='UNKNOWN')
+
 do while (m <= mf)
     avmaxcluster = 0.0    ! average value of max component size
     avnumbcluster = 0.0   ! average value of number of components
-	amtot = 0.0           ! average value of subnetwork size
+  amtot = 0.0           ! average value of subnetwork size
     avhiddentot = 0.0     ! average number of hidden nodes found
     maxsizev = 0
     nclustersv = 0
@@ -269,8 +278,8 @@ do while (m <= mf)
     a_aux = a
     ALLOCATE (row(nsize),col(nsize))  ! index of nodes in subnetwork
 
-	! loop over different realizations for fixed m
-    do j=1,nr  
+  ! loop over different realizations for fixed m
+    do j=1,nr
         v = 0
         idx = 0
 
@@ -298,18 +307,18 @@ do while (m <= mf)
             end if
         end do
 
-		! add up to nfn or the fraction anfn of first neighbors to all mm key nodes
-		vk = 0
-		mnew = mm
+    ! add up to nfn or the fraction anfn of first neighbors to all mm key nodes
+    vk = 0
+    mnew = mm
         linkc = 0
         row = 0
         col = 0
-		do k=1,mm
+    do k=1,mm
             ! find neighbors of node v(k) and put them in the vector vk
             ! mk = total number of neighbors = degree of node v(k)
             ! mkk = min[mk,nfn] if nfn > 0
             ! mkk = mk*anfn if nfn = 0
-			call findneighbors(a,v(k),n,vk,mk) ! get neighbors
+      call findneighbors(a,v(k),n,vk,mk) ! get neighbors
             if(anfn > 1.0) then
                 mkk = mk
                 if(mk > nfn) mkk = nfn             ! add at most nfn
@@ -318,7 +327,7 @@ do while (m <= mf)
             end if
             ! add neighbors randomly
             if(neigh_crit == 0) then
-                do l=1,mkk        
+                do l=1,mkk
                     call random_number(aux)
                     jsr = int(aux*mk) + 1          ! select random neighbor
                     do ll=1,mnew
@@ -343,7 +352,7 @@ do while (m <= mf)
                     end if
                 end do
             else
-                ! add neighbors according to chosen criterion 
+                ! add neighbors according to chosen criterion
                 ! w(i,j) = weight for link i-j according to exponential distribution
                 ! vw = vector containing the cummulative weights for the links v(k)-neighbors
                 ALLOCATE(vw(mk),vwaux(mk))
@@ -381,18 +390,40 @@ do while (m <= mf)
                 end do
                 DEALLOCATE(vw,vwaux)
             end if
-		end do
+    end do
 
 
         ! all nodes of subnetwork are stored in v -> construct adjacency matrix jj
-		ALLOCATE (jj(mnew,mnew))
+    ALLOCATE (jj(mnew,mnew))
         jj = 0
         do k=1,linkc
             jj(idx(row(k)),idx(col(k))) = 1
             jj(idx(col(k)),idx(row(k))) = 1
         end do
 
-	    ! find connected clusters
+        ALLOCATE(degsamp(mnew))
+        degsamp = sum(jj,DIM=1)
+
+        ! print sampled nodes, their degree in the original network and in the sampled network
+        ! print only for m=mf (the last value of m on the list)
+        if( m == mf) then
+            do k=1,mm
+                degreeori = sum(a(:,v(k)))
+                degreesampled = sum(jj(:,k))
+                write(27,*) k,v(k),degori(v(k)),degsamp(k)
+            end do
+            do k=mm+1,mnew
+                degreeori = sum(a(:,v(k)))
+                degreesampled = sum(jj(:,k))
+                write(28,*) k,v(k),degori(v(k)),degsamp(k)
+            end do
+        end if
+
+
+
+        DEALLOCATE(degsamp)
+
+      ! find connected clusters
         call clusters(jj,mnew,maxsize,nclusters)
 
         ! calculate how many nodes of hidden modules have been found
@@ -410,7 +441,7 @@ do while (m <= mf)
         ! add results of each realization to calculate averages
         avmaxcluster = avmaxcluster + float(maxsize)
         avnumbcluster = avnumbcluster + float(nclusters)
-		amtot = amtot + float(mnew)
+    amtot = amtot + float(mnew)
         avhiddentot = avhiddentot + float(hidden)
 
         ! save info to calcule variance
@@ -419,16 +450,18 @@ do while (m <= mf)
         mnewv(j) = mnew
         hiddenv(j) = hidden
 
-		! save the subnetwork obtained in the first realization as an example
-		IF(j == 1) CALL SAVE_SUB_NET
+    ! save the subnetwork obtained in the first realization as an example
+    IF(j == 1) CALL SAVE_SUB_NET
 
-		DEALLOCATE (jj)
+    DEALLOCATE (jj)
     end do
 
+    CLOSE(27)
+    CLOSE(28)
     ! normalize average values
     avmaxcluster = avmaxcluster/anr
     avnumbcluster = avnumbcluster/anr
-	amtot = amtot/anr
+  amtot = amtot/anr
     avhiddentot = avhiddentot/anr
 
     ! calcule variances
@@ -449,19 +482,19 @@ do while (m <= mf)
     varhidden = sqrt(varhidden/anr)
 
     ! print results on screen and file
-    print 112, m,amtot,varm,avmaxcluster,varmax,avmaxcluster/amtot,varquo,avnumbcluster,varnumb,avhiddentot,varhidden
+!    print 112, m,amtot,varm,avmaxcluster,varmax,avmaxcluster/amtot,varquo,avnumbcluster,varnumb,avhiddentot,varhidden
     write(10,112) m,amtot,varm,avmaxcluster,varmax,avmaxcluster/amtot,varquo,avnumbcluster,varnumb,avhiddentot,varhidden
     m = m + mstep
-	DEALLOCATE (row,col)
+  DEALLOCATE (row,col)
 end do
 
 
 close(10)
 
-CALL RANDOM_SEED(get=iseed)
-OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD', POSITION='REWIND')
-WRITE (50,*) iseed
-close(50)
+!CALL RANDOM_SEED(get=iseed)
+!OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD', POSITION='REWIND')
+!WRITE (50,*) iseed
+!close(50)
 
 DEALLOCATE(v,vk,prob_aux,key_prob,maxsizev,nclustersv,mnewv,hiddenv)
 DEALLOCATE(a,a_aux,idx,modsize,module_status)
@@ -497,14 +530,14 @@ IF(icrit <= 2) THEN     ! sampling is Random, Lognormal or Fisher
             av=1.0
             sigma = 0.2
             CALL lognormal(np,av,sigma,x,rhoc)   ! generate log-normal distribution
-            print *, 'Sampling key nodes according to lognormal abundance distribution'
+!            print *, 'Sampling key nodes according to lognormal abundance distribution'
         ELSE
             y = 0.5
             CALL fisherlog(np,y,x,rhoc)          ! generate fisher distribution
-            print *, 'Sampling key nodes according to Fisher abundance distribution'
+!            print *, 'Sampling key nodes according to Fisher abundance distribution'
         END IF
     ELSE
-        print *, 'Sampling key nodes randomly'
+!        print *, 'Sampling key nodes randomly'
     END IF
 
     do im=1,imods
@@ -540,7 +573,7 @@ IF(icrit <= 2) THEN     ! sampling is Random, Lognormal or Fisher
 
     ELSE IF(icrit == 3) THEN     ! exponential abundance distribution
         OPEN(UNIT=30,FILE='./output_sampled/abund.txt',STATUS='UNKNOWN')
-        print *, 'Sampling key nodes according to exponential abundance distribution'
+!        print *, 'Sampling key nodes according to exponential abundance distribution'
         do im=1,imods
             if(im == 1) then
                 ijump = 0
@@ -568,7 +601,7 @@ IF(icrit <= 2) THEN     ! sampling is Random, Lognormal or Fisher
 
     ELSE IF(icrit == 4) THEN                        ! sample according to degree
         OPEN(UNIT=20,FILE='./output_sampled/degree.txt',STATUS='UNKNOWN')
-        print *, 'Sampling key nodes according to degree'
+!        print *, 'Sampling key nodes according to degree'
         prob = sum(a,DIM=1)
         DO im=1,imods
             if(im == 1) then
@@ -593,7 +626,7 @@ IF(icrit <= 2) THEN     ! sampling is Random, Lognormal or Fisher
 
     ELSE IF(icrit == 5) THEN                        ! sample according to module
         OPEN(UNIT=20,FILE='./output_sampled/module.txt',STATUS='UNKNOWN')
-        print *, 'Sampling key nodes according to module probabilities'
+!        print *, 'Sampling key nodes according to module probabilities'
         do im=1,imods
             if(im == 1) then
                 ijump = 0
@@ -750,95 +783,4 @@ close(20)
 END SUBROUTINE fisherlog
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE NUMBSTR(ID,NUMBER,STR)
-CHARACTER*(*) STR
-INTEGER*4 ID,NUMBER
-CHARACTER*1 B
-INTEGER*4 IA0,N,I,IT
-IA0 = ICHAR('0')
-N = NUMBER
-DO I=1,ID
-J = ID + 1 - I
-IT = MOD(N,10)
-B = CHAR(IA0 + IT)
-STR(J:J) = B
-N = (N - IT)/10
-END DO
-RETURN
-END
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE clusters(jj,nf,maxsize,icount)
-INTEGER nf,i,j,nvm(1)
-INTEGER jj(nf,nf),vm(nf+1)
-INTEGER, ALLOCATABLE :: csizes(:)
-
-ALLOCATE (csizes(0:nf))
-nvm(1) = 1
-icount = 0
-csizes = 0
-itot = 0
-
-do while (nvm(1) /= nf+1)
-    if(itot == 0) then
-        vm = 0
-        vm(1) = 1
-        i = 1
-    else
-        loop1: do i=1,nf
-            do j=1,nvm(1)-1
-                if(i == vm(j)) cycle loop1
-            end do
-            vm(nvm(1)) = i
-            exit loop1
-        end do loop1
-    end if
-    CALL findtree(jj,vm,vm(nvm(1)),nf,nvm)
-    nvm(1:1) = minloc(vm)
-    icount = icount + 1
-    csizes(icount) = nvm(1)-1 - itot
-    itot = itot + csizes(icount)
-end do
-maxsize = maxval(csizes)
-END SUBROUTINE clusters
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-RECURSIVE SUBROUTINE findtree(jj,vm,n,nf,nvm)
-INTEGER, INTENT(IN) :: n
-INTEGER i,j,nvm(1),m
-INTEGER jj(nf,nf),v(nf),vm(nf+1)
-! find neighbors of node n
-CALL findneighbors (jj,n,nf,v,m)
-nvm(1:1) = minloc(vm) - 1
-loop1: DO i=1,m
-    DO j=1,nvm(1)
-        IF(v(i) == vm(j)) THEN
-            CYCLE loop1
-        END IF
-    END DO
-    IF(nvm(1)==nf) EXIT loop1
-        nvm(1) = nvm(1) + 1
-        vm(nvm(1)) = v(i)
-        CALL findtree(jj,vm,v(i),nf,nvm)
-END DO loop1
-RETURN
-END
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE findneighbors (jj,n,nf,v,m)
-INTEGER n,nf,i,m
-INTEGER jj(nf,nf),v(nf)
-m = 0
-DO i=1,nf
-    IF(jj(n,i)==1) THEN   !find neighbors of node n
-        m = m + 1         !add 1 to counter
-        v(m) = i          !store neighbor
-    END IF
-END DO
-RETURN
-END
 

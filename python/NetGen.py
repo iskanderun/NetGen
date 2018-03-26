@@ -14,7 +14,7 @@
 #
 # where "name" is specified by user
 
-# a list of all networks created, along with the most important parameters are saved in the log file 
+# a list of all networks created, along with the most important parameters are saved in the log file
 #     log_net.txt
 
 
@@ -80,7 +80,7 @@ G.add_edges_from(array)
 
 
 # node color is set to blue in commands nx.draw_spring and plt.scatter
-# example of available colors are 
+# example of available colors are
 # 'b' = blue
 # 'r' = red
 # 'k' = black
