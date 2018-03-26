@@ -27,7 +27,7 @@
 #' @useDynLib NetGen, .registration = TRUE
 #' @export
 netgen <-
-  function(tmp = "adj_network.txt",
+  function(name = "network",
            n_modav = c(50, 10),
            cutoffs = c(3, 0),
            net_type = 1,
@@ -39,9 +39,9 @@ netgen <-
 
     ## FIXME avoid I/O
 
-    .Fortran(
+    res = .Fortran(
       "subnetgen",
-      tmp,
+      output = integer(n_modav[1]^2),
       as.integer(n_modav),
       as.integer(cutoffs),
       as.integer(net_type),
@@ -49,10 +49,10 @@ netgen <-
       as.single(net_rewire),
       as.single(mod_probs)
     )
-
-    M <- scan(file.path(tmp),  quiet = TRUE)
-    M <- matrix(M, sqrt(length(M)))
-    igraph::graph_from_adjacency_matrix(M)
+    return(res$output)
+    #M <- scan(file.path(tmp),  quiet = TRUE)
+    #M <- matrix(M, sqrt(length(M)))
+    #igraph::graph_from_adjacency_matrix(M)
 
     #M <- read.table(
     #  "output_gen/network.txt",

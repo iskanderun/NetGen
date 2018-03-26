@@ -4,7 +4,7 @@
 
 
 void F77_SUB(subnetgen)(
-             const char *,
+             int *,
              int *,
              int *,
              int *,

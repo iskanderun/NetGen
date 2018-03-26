@@ -13,8 +13,9 @@ END MODULE globals
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-SUBROUTINE subnetgen(namenet,n_modav,cutoffs,nettype,avkk,rewindprobs,mod_probs)
+SUBROUTINE subnetgen(output,n_modav,cutoffs,nettype,avkk,rewindprobs,mod_probs)
 USE globals
+INTEGER output(*)
 INTEGER, INTENT(IN), DIMENSION(2) :: n_modav
 INTEGER, INTENT(IN), DIMENSION(2) :: cutoffs
 INTEGER, INTENT(IN) :: nettype
@@ -27,7 +28,7 @@ INTEGER, DIMENSION(200) :: modsize_sav
 !CHARACTER*4 node1,node2
 CHARACTER*20 namenet
 CHARACTER*50 name_network,prop_network,adj_network
-
+namenet = "default"
 n = n_modav(1)
 modav = n_modav(2)
 mcutoff = cutoffs(1)
@@ -294,6 +295,12 @@ end if
 !close(50)
 
 !write(6,*) '----------------------------------------- '
+
+do i=1,n
+  do j=1,n
+    output(i + (j-1) * n) = a(i,j)
+  end do
+end do
 
 ! write adjacency matrix
 OPEN(UNIT=11,FILE=TRIM(namenet),STATUS='unknown')
