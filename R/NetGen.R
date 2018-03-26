@@ -2,7 +2,6 @@
 #'
 #' netgen function
 #'
-#' @param tmp a user-specified name for this network
 #' @param n_modav network size and average module size (integer vector, length 2)
 #' @param cutoffs module and submodule minimum sizes (integer vector, length 2).
 #'  (submodules are used only for bipartite and tripartite networks)
@@ -27,7 +26,7 @@
 #' @useDynLib NetGen, .registration = TRUE
 #' @export
 netgen <-
-  function(name = "network",
+  function(
            n_modav = c(50, 10),
            cutoffs = c(3, 0),
            net_type = 1,

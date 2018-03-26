@@ -220,18 +220,18 @@ call clusters(a,n,maxsize,nclusters)
 
 
 ! print basic info on screen
-print *,
-print *, 'network size =',n
-print *, 'average degree =',av_degree
-print *, 'total number of clusters =',nclusters
-print *, 'size of largest cluster =',maxsize
-print *,
-print *, 'hidden modules are      ',(hidden_modules(i),i=1,numb_hidden)
-if(numb_hidden /= 0) then
-    print *, 'number of hidden nodes = ',(modsize(hidden_modules(i)),'  +',i=1,numb_hidden-1), &
-                modsize(hidden_modules(numb_hidden)),'    = ',hiddentot
-end if
-print *,
+!print *,
+!print *, 'network size =',n
+!print *, 'average degree =',av_degree
+!print *, 'total number of clusters =',nclusters
+!print *, 'size of largest cluster =',maxsize
+!print *,
+!print *, 'hidden modules are      ',(hidden_modules(i),i=1,numb_hidden)
+!if(numb_hidden /= 0) then
+!    print *, 'number of hidden nodes = ',(modsize(hidden_modules(i)),'  +',i=1,numb_hidden-1), &
+!                modsize(hidden_modules(numb_hidden)),'    = ',hiddentot
+!end if
+!print *,
 
 ! Calculate probabilities according to sampling criterion
 !
@@ -242,10 +242,10 @@ CALL SAMPLING_CRITERION(icrit)
 ! For random sampling key_prob(i) = i/n (if no modules are skipped)
 
 
-print *,
-print *, '   m       size    rms      larg-comp rms      rel-larg-comp rms    #-comps rms     hidden-nodes  rms'
-print *, ' -------------------------------------------------------------------------------------------------------'
-print *,
+!print *,
+!print *, '   m       size    rms      larg-comp rms      rel-larg-comp rms    #-comps rms     hidden-nodes  rms'
+!print *, ' -------------------------------------------------------------------------------------------------------'
+!print *,
 
 
 ! loop over m from mi to mf at steps of mstep
@@ -482,7 +482,7 @@ do while (m <= mf)
     varhidden = sqrt(varhidden/anr)
 
     ! print results on screen and file
-    print 112, m,amtot,varm,avmaxcluster,varmax,avmaxcluster/amtot,varquo,avnumbcluster,varnumb,avhiddentot,varhidden
+!    print 112, m,amtot,varm,avmaxcluster,varmax,avmaxcluster/amtot,varquo,avnumbcluster,varnumb,avhiddentot,varhidden
     write(10,112) m,amtot,varm,avmaxcluster,varmax,avmaxcluster/amtot,varquo,avnumbcluster,varnumb,avhiddentot,varhidden
     m = m + mstep
   DEALLOCATE (row,col)
@@ -530,14 +530,14 @@ IF(icrit <= 2) THEN     ! sampling is Random, Lognormal or Fisher
             av=1.0
             sigma = 0.2
             CALL lognormal(np,av,sigma,x,rhoc)   ! generate log-normal distribution
-            print *, 'Sampling key nodes according to lognormal abundance distribution'
+!            print *, 'Sampling key nodes according to lognormal abundance distribution'
         ELSE
             y = 0.5
             CALL fisherlog(np,y,x,rhoc)          ! generate fisher distribution
-            print *, 'Sampling key nodes according to Fisher abundance distribution'
+!            print *, 'Sampling key nodes according to Fisher abundance distribution'
         END IF
     ELSE
-        print *, 'Sampling key nodes randomly'
+!        print *, 'Sampling key nodes randomly'
     END IF
 
     do im=1,imods
@@ -573,7 +573,7 @@ IF(icrit <= 2) THEN     ! sampling is Random, Lognormal or Fisher
 
     ELSE IF(icrit == 3) THEN     ! exponential abundance distribution
         OPEN(UNIT=30,FILE='./output_sampled/abund.txt',STATUS='UNKNOWN')
-        print *, 'Sampling key nodes according to exponential abundance distribution'
+!        print *, 'Sampling key nodes according to exponential abundance distribution'
         do im=1,imods
             if(im == 1) then
                 ijump = 0
@@ -601,7 +601,7 @@ IF(icrit <= 2) THEN     ! sampling is Random, Lognormal or Fisher
 
     ELSE IF(icrit == 4) THEN                        ! sample according to degree
         OPEN(UNIT=20,FILE='./output_sampled/degree.txt',STATUS='UNKNOWN')
-        print *, 'Sampling key nodes according to degree'
+!        print *, 'Sampling key nodes according to degree'
         prob = sum(a,DIM=1)
         DO im=1,imods
             if(im == 1) then
@@ -626,7 +626,7 @@ IF(icrit <= 2) THEN     ! sampling is Random, Lognormal or Fisher
 
     ELSE IF(icrit == 5) THEN                        ! sample according to module
         OPEN(UNIT=20,FILE='./output_sampled/module.txt',STATUS='UNKNOWN')
-        print *, 'Sampling key nodes according to module probabilities'
+!        print *, 'Sampling key nodes according to module probabilities'
         do im=1,imods
             if(im == 1) then
                 ijump = 0
