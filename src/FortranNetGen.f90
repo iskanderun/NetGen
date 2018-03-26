@@ -303,14 +303,15 @@ do i=1,n
 end do
 
 ! write adjacency matrix
-OPEN(UNIT=11,FILE=TRIM(namenet),STATUS='unknown')
-do i=1,n
-    write(11,900) (a(i,j),j=1,n)
-end do
-CLOSE(11)
-900 FORMAT(2000(i1,1x))
+!OPEN(UNIT=11,FILE=TRIM(namenet),STATUS='unknown')
+!do i=1,n
+!    write(11,900) (a(i,j),j=1,n)
+!end do
+!CLOSE(11)
+!900 FORMAT(2000(i1,1x))
+
 DEALLOCATE(a,degree)
-CLOSE(15)
+!CLOSE(15)
 
 ! save info on log file
 !OPEN(UNIT=20,FILE='log_gen.txt',STATUS='UNKNOWN')

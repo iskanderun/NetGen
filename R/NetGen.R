@@ -49,10 +49,11 @@ netgen <-
       as.single(net_rewire),
       as.single(mod_probs)
     )
-    return(res$output)
+
+    M <- res$output
     #M <- scan(file.path(tmp),  quiet = TRUE)
-    #M <- matrix(M, sqrt(length(M)))
-    #igraph::graph_from_adjacency_matrix(M)
+    M <- matrix(M, sqrt(length(M)))
+    igraph::graph_from_adjacency_matrix(M)
 
     #M <- read.table(
     #  "output_gen/network.txt",
