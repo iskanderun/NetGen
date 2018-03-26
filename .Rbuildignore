@@ -13,3 +13,5 @@ quicktest.R
 ^Package-New$
 ^src/.*\.mod$
 ^codecov\.yml$
+^ignore$
+
