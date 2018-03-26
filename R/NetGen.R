@@ -2,7 +2,7 @@
 #'
 #' netgen function
 #'
-#' @param name a user-specified name for this network
+#' @param tmp a user-specified name for this network
 #' @param n_modav network size and average module size (integer vector, length 2)
 #' @param cutoffs module and submodule minimum sizes (integer vector, length 2).
 #'  (submodules are used only for bipartite and tripartite networks)
@@ -27,19 +27,21 @@
 #' @useDynLib NetGen, .registration = TRUE
 #' @export
 netgen <-
-  function(name = "netgen",
+  function(tmp = "adj_network.txt",
            n_modav = c(50, 10),
            cutoffs = c(3, 0),
            net_type = 1,
            net_degree = 10,
            net_rewire = c(0.3,0.0),
            mod_probs = 0) {
-    dir.create("output_gen", FALSE)
-    writeLines("", "output_gen/log_gen.txt")
+    #dir.create(dirname(tmp), FALSE)
+    #writeLines("", "output_gen/log_gen.txt")
+
+    ## FIXME avoid I/O
 
     .Fortran(
       "subnetgen",
-      name,
+      tmp,
       as.integer(n_modav),
       as.integer(cutoffs),
       as.integer(net_type),
@@ -47,9 +49,8 @@ netgen <-
       as.single(net_rewire),
       as.single(mod_probs)
     )
-    #M <- scan("output_gen/adj_network.txt")
-    #matrix(M, sqrt(length(M)))
-    M <- scan("output_gen/adj_network.txt",  quiet = TRUE)
+
+    M <- scan(file.path(tmp),  quiet = TRUE)
     M <- matrix(M, sqrt(length(M)))
     igraph::graph_from_adjacency_matrix(M)
 

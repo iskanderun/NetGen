@@ -24,7 +24,7 @@ REAL, INTENT(IN), DIMENSION(7) :: mod_probs
 INTEGER, ALLOCATABLE :: degree(:)
 INTEGER, DIMENSION(200) :: modsize_sav
 !INTEGER :: iseed(12)
-CHARACTER*4 node1,node2
+!CHARACTER*4 node1,node2
 CHARACTER*20 namenet
 CHARACTER*50 name_network,prop_network,adj_network
 
@@ -74,7 +74,7 @@ an = float(n)
 ALLOCATE (a(n,n),degree(n))
 
 ! open file to save network properties
-OPEN(UNIT=15,FILE=prop_network,STATUS='UNKNOWN')
+!OPEN(UNIT=15,FILE="prop.txt",STATUS='UNKNOWN')
 
 ! Generate the Modular Network
 
@@ -84,8 +84,8 @@ modtotold = 0        ! aux variable
 modcount = 0         ! count number of modules
 modsize_sav = 0      ! save size of each module
 
-write(6,*) '      module size','     module type'
-write(6,*) '----------------------------------------- '
+!write(6,*) '      module size','     module type'
+!write(6,*) '----------------------------------------- '
 
 do while(modtot < n)
 
@@ -113,71 +113,71 @@ do while(modtot < n)
         IF(aux < pc1) THEN
             p = avk/float(modsize-1)
             CALL RANDOMMOD(ini,modtot)
-            write(6,*) modsize,'         random '
-            write(15,*) modsize,'random module   '
+!            write(6,*) modsize,'         random '
+!            write(15,*) modsize,'random module   '
         ELSE IF(aux < pc2) THEN
             CALL SFMOD(ini,modtot)
-            write(6,*) modsize,'         scalefree '
-            write(15,*) modsize,'scalefree module'
+!            write(6,*) modsize,'         scalefree '
+!            write(15,*) modsize,'scalefree module'
         ELSE IF(aux < pc3) THEN
             CALL NESTEDMOD(ini,modtot)
-            write(6,*) modsize,'         nested '
-            write(15,*) modsize,'nested module   '
+!            write(6,*) modsize,'         nested '
+!            write(15,*) modsize,'nested module   '
         ELSE IF(aux < pc41) THEN
             CALL BINESTEDMOD(ini,modtot)
-            write(6,*) modsize,'         bipartite  nested      ','    sub-modules -->',nbi1,nbi2
-            write(15,*) nbi1,'bipartite nested module 1'
-            write(15,*) nbi2,'bipartite nested module 2'
+!            write(6,*) modsize,'         bipartite  nested      ','    sub-modules -->',nbi1,nbi2
+!            write(15,*) nbi1,'bipartite nested module 1'
+!            write(15,*) nbi2,'bipartite nested module 2'
         ELSE IF(aux < pc42) THEN
             CALL BIRANDMOD(ini,modtot)
-            write(6,*) modsize,'         bipartite random       ','    sub-modules -->',nbi1,nbi2
-            write(15,*) nbi1,'bipartite random module 1'
-            write(15,*) nbi2,'bipartite random module 2'
+!            write(6,*) modsize,'         bipartite random       ','    sub-modules -->',nbi1,nbi2
+!            write(15,*) nbi1,'bipartite random module 1'
+!            write(15,*) nbi2,'bipartite random module 2'
         ELSE IF(aux < pc51) THEN
             CALL TRIMOD(ini,modtot,1)
-            write(6,*) modsize,'         tri-trophic random     ','    sub-modules -->',ntri1,ntri2,ntri3
-            write(15,*) ntri1,'tri-trophic random module 1'
-            write(15,*) ntri2,'tri-trophic random module 2'
-            write(15,*) ntri3,'tri-trophic random module 3'
+!            write(6,*) modsize,'         tri-trophic random     ','    sub-modules -->',ntri1,ntri2,ntri3
+!            write(15,*) ntri1,'tri-trophic random module 1'
+!            write(15,*) ntri2,'tri-trophic random module 2'
+!            write(15,*) ntri3,'tri-trophic random module 3'
         ELSE IF(aux < pc52) THEN
             CALL TRIMOD(ini,modtot,2)
-            write(6,*) modsize,'         tri-trophic bipartite  ','    sub-modules -->',ntri1,ntri2,ntri3
-            write(15,*) ntri1,'tri-trophic bipartite module 1'
-            write(15,*) ntri2,'tri-trophic bipartite module 2'
-            write(15,*) ntri3,'tri-trophic bipartite module 3'
+!            write(6,*) modsize,'         tri-trophic bipartite  ','    sub-modules -->',ntri1,ntri2,ntri3
+!            write(15,*) ntri1,'tri-trophic bipartite module 1'
+!            write(15,*) ntri2,'tri-trophic bipartite module 2'
+!            write(15,*) ntri3,'tri-trophic bipartite module 3'
         END IF
     ELSE IF(nettype == 1) THEN
         CALL RANDOMMOD(ini,modtot)
-    write(6,*) modsize,'         random '
-        write(15,*) modsize,'random module   '
+!    write(6,*) modsize,'         random '
+!        write(15,*) modsize,'random module   '
     ELSE IF(nettype == 2) THEN
         CALL SFMOD(ini,modtot)
-    write(6,*) modsize,'         scalefree '
-        write(15,*) modsize,'scalefree module'
+!    write(6,*) modsize,'         scalefree '
+!        write(15,*) modsize,'scalefree module'
     ELSE IF(nettype == 3) THEN
         CALL NESTEDMOD(ini,modtot)
-    write(6,*) modsize,'         nested '
-        write(15,*) modsize,'nested module   '
+!    write(6,*) modsize,'         nested '
+!        write(15,*) modsize,'nested module   '
     ELSE IF(nettype == 41) THEN
         CALL BINESTEDMOD(ini,modtot)
-    write(6,*) modsize,'   bipartite nested','    sub-modules -->',nbi1,nbi2
-        write(15,*) modsize,'bipartite module'
+!    write(6,*) modsize,'   bipartite nested','    sub-modules -->',nbi1,nbi2
+!        write(15,*) modsize,'bipartite module'
     ELSE IF(nettype == 42) THEN
         CALL BIRANDMOD(ini,modtot)
-        write(6,*) modsize,'   bipartite random','    sub-modules -->',nbi1,nbi2
-        write(15,*) modsize,'bipartite module'
+!        write(6,*) modsize,'   bipartite random','    sub-modules -->',nbi1,nbi2
+!        write(15,*) modsize,'bipartite module'
     ELSE IF(nettype == 51) THEN
         CALL TRIMOD(ini,modtot,1)
-        write(6,*) modsize,'         tri-trophic random,','    sub-modules -->',ntri1,ntri2,ntri3
-        write(15,*) ntri1,'tri-trophic random module 1'
-        write(15,*) ntri2,'tri-trophic random module 2'
-        write(15,*) ntri3,'tri-trophic random module 3'
+!        write(6,*) modsize,'         tri-trophic random,','    sub-modules -->',ntri1,ntri2,ntri3
+!        write(15,*) ntri1,'tri-trophic random module 1'
+!        write(15,*) ntri2,'tri-trophic random module 2'
+!        write(15,*) ntri3,'tri-trophic random module 3'
     ELSE IF(nettype == 52) THEN
         CALL TRIMOD(ini,modtot,2)
-        write(6,*) modsize,'         tri-trophic bipartite,','    sub-modules -->',ntri1,ntri2,ntri3
-        write(15,*) ntri1,'tri-trophic bipartite module 1'
-        write(15,*) ntri2,'tri-trophic bipartite module 2'
-        write(15,*) ntri3,'tri-trophic bipartite module 3'
+!        write(6,*) modsize,'         tri-trophic bipartite,','    sub-modules -->',ntri1,ntri2,ntri3
+!        write(15,*) ntri1,'tri-trophic bipartite module 1'
+!        write(15,*) ntri2,'tri-trophic bipartite module 2'
+!        write(15,*) ntri3,'tri-trophic bipartite module 3'
     END IF
 end do
 
@@ -249,42 +249,42 @@ do i=1,n
 end do
 
 ! save network to file
-OPEN(UNIT=10,FILE="./output_gen/network.txt",STATUS='UNKNOWN')
-do i=1,n
-  CALL NUMBSTR(4,i,node1)
-  do j=i+1,n
-    if(a(i,j)==1) then
-      CALL NUMBSTR(4,j,node2)
-            write(10,110) node1,node2
-        end if
-   end do
-end do
-CLOSE(10)
-110 FORMAT(A4,1x,A4)
+!OPEN(UNIT=10,FILE='network.txt',STATUS='UNKNOWN')
+!do i=1,n
+!  CALL NUMBSTR(4,i,node1)
+!  do j=i+1,n
+!    if(a(i,j)==1) then
+!      CALL NUMBSTR(4,j,node2)
+!            write(10,110) node1,node2
+!        end if
+!   end do
+!end do
+!CLOSE(10)
+!110 FORMAT(A4,1x,A4)
 
 
-write(6,*) '----------------------------------------- '
+!write(6,*) '----------------------------------------- '
 ! average connectivity
 icon = SUM(a)
-write(6,*) 'average degree =',icon/an
-write(6,*) 'average module size =',an/float(modcount)
+!write(6,*) 'average degree =',icon/an
+!write(6,*) 'average module size =',an/float(modcount)
 
 call clusters(a,n,maxsize,nclusters)
-write(6,*) 'number of components =',nclusters
-write(6,*) 'size of largest component =',maxsize
+!write(6,*) 'number of components =',nclusters
+!write(6,*) 'size of largest component =',maxsize
 
-write(15,*) ' '
-write(15,*) 'average degree =',icon/an
-write(15,*) 'average module size =',an/float(modcount)
-write(15,*) 'number of components =',nclusters
-write(15,*) 'size of largest component =',maxsize
+!write(15,*) ' '
+!write(15,*) 'average degree =',icon/an
+!write(15,*) 'average module size =',an/float(modcount)
+!write(15,*) 'number of components =',nclusters
+!write(15,*) 'size of largest component =',maxsize
 
 if (nclusters /= 1) then
-    write(6,*)
-    write(6,*) 'WARNING: THE NETWORK HAS MORE THAN ONE CONNECTED COMPONENT'
-    write(6,*) 'RUN THE PROGRAM AGAIN UNTIL A SINGLE COMPONENT IS OBTAINED'
-    write(6,*) 'TRY INCREASING THE REWIRING PROBABILIES'
-    write(6,*)
+!    write(6,*)
+!    write(6,*) 'WARNING: THE NETWORK HAS MORE THAN ONE CONNECTED COMPONENT'
+!    write(6,*) 'RUN THE PROGRAM AGAIN UNTIL A SINGLE COMPONENT IS OBTAINED'
+!    write(6,*) 'TRY INCREASING THE REWIRING PROBABILIES'
+!    write(6,*)
 end if
 
 
@@ -293,9 +293,10 @@ end if
 !WRITE (50,*) iseed
 !close(50)
 
-write(6,*) '----------------------------------------- '
+!write(6,*) '----------------------------------------- '
+
 ! write adjacency matrix
-OPEN(UNIT=11,FILE="./output_gen/adj_network.txt",STATUS='unknown')
+OPEN(UNIT=11,FILE=TRIM(namenet),STATUS='unknown')
 do i=1,n
     write(11,900) (a(i,j),j=1,n)
 end do
@@ -305,10 +306,10 @@ DEALLOCATE(a,degree)
 CLOSE(15)
 
 ! save info on log file
-OPEN(UNIT=20,FILE='./output_gen/log_gen.txt',STATUS='OLD', POSITION='APPEND')
-WRITE(20,901) namenet,nettype,n,modav,avk,prew,prewloc
-CLOSE(20)
-901 FORMAT(A15,2x,i3,5x,i5,5x,i5,7x,F6.2,5x,F6.2,8x,F6.2)
+!OPEN(UNIT=20,FILE='log_gen.txt',STATUS='UNKNOWN')
+!WRITE(20,901) namenet,nettype,n,modav,avk,prew,prewloc
+!CLOSE(20)
+!901 FORMAT(A15,2x,i3,5x,i5,5x,i5,7x,F6.2,5x,F6.2,8x,F6.2)
 
 end subroutine SubNetGen
 
