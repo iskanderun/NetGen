@@ -23,19 +23,21 @@ netgen(n_modav = c(50, 10), cutoffs = c(3, 0), net_type = 1,
 used for constructing mixed networks, net_type = 0}
 }
 \value{
-an `igraph` object
+an \code{igraph} object
 }
 \description{
 netgen function
 }
 \details{
 network type
-0 = mixed
-1 = random
-2 = scalefree
-3 = nested
-41 = bi-partite nested
-42 = bi-partite random
-51 = tri-trophic bipartite nested-random
-52 = tri-trophic bipartite nested-bipartite nested
+\itemize{
+\item 0 = mixed
+\item 1 = random
+\item 2 = scalefree
+\item 3 = nested
+\item 41 = bi-partite nested
+\item 42 = bi-partite random
+\item 51 = tri-trophic bipartite nested-random
+\item 52 = tri-trophic bipartite nested-bipartite nested
+}
 }

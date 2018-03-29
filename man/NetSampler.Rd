@@ -26,36 +26,42 @@ and number of realizations nr mi, mf, delta-m, nr}
 }
 \value{
 output files are:
-- out_name -- main output file with info on the sunetwork
-- abund.txt / degree.txt / module.txt
-- subnet.txt  -- sampled network
-- netnodes.txt -- nodes in red or blue if belong subnet or not
-- netlinks.txt --  links in red or blue if connect subnet or not
+\itemize{
+\item out_name -- main output file with info on the sunetwork
+\item abund.txt / degree.txt / module.txt
+\item subnet.txt  -- sampled network
+\item netnodes.txt -- nodes in red or blue if belong subnet or not
+\item netlinks.txt --  links in red or blue if connect subnet or not
+}
 }
 \description{
 Network Sampling Routine
 }
 \details{
 afn argument can be written in numerous ways:
-- if 0 < anfn <= 1 it is interpreted as a fraction of the total number of neighbors
-- otherwise as the number of neighbors
-- to add all neighbors use 1.0
-- to add 1 neighbor per node use 1.1
-- to add 2 neighbours use 2, etc
+\itemize{
+\item if 0 < anfn <= 1 it is interpreted as a fraction of the total number of neighbors
+\item otherwise as the number of neighbors
+\item to add all neighbors use 1.0
+\item to add 1 neighbor per node use 1.1
+\item to add 2 neighbours use 2, etc
+}
 
 sampling criteria for key nodes and neighbors
 
 criterion for key nodes
-
-- 0 for random
-- 1 for lognormal
-- 2 for Fisher log series
-- 3 for exponential
-- 4 for degree
-- 5 for module
+\itemize{
+\item 0 for random
+\item 1 for lognormal
+\item 2 for Fisher log series
+\item 3 for exponential
+\item 4 for degree
+\item 5 for module
+}
 
 criterion for neighbors
-
-- 0 = random
-- 1 = weighted according to exponential distribution
+\itemize{
+\item 0 = random
+\item 1 = weighted according to exponential distribution
+}
 }

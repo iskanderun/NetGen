@@ -12,14 +12,14 @@
 #'   used for constructing mixed networks, net_type = 0
 #' @details
 #' network type
-#' 0 = mixed
-#' 1 = random
-#' 2 = scalefree
-#' 3 = nested
-#' 41 = bi-partite nested
-#' 42 = bi-partite random
-#' 51 = tri-trophic bipartite nested-random
-#' 52 = tri-trophic bipartite nested-bipartite nested
+#' - 0 = mixed
+#' - 1 = random
+#' - 2 = scalefree
+#' - 3 = nested
+#' - 41 = bi-partite nested
+#' - 42 = bi-partite random
+#' - 51 = tri-trophic bipartite nested-random
+#' - 52 = tri-trophic bipartite nested-bipartite nested
 #' @importFrom igraph graph.data.frame graph_from_adjacency_matrix
 #' @importFrom utils read.table
 #' @return an `igraph` object
