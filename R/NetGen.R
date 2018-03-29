@@ -33,12 +33,7 @@ netgen <-
            net_degree = 10,
            net_rewire = c(0.3,0.0),
            mod_probs = 0) {
-    #dir.create(dirname(tmp), FALSE)
-    #writeLines("", "output_gen/log_gen.txt")
-
-    ## FIXME avoid I/O
-
-    res = .Fortran(
+    res <- .Fortran(
       "subnetgen",
       output = integer(n_modav[1]^2),
       as.integer(n_modav),
@@ -50,30 +45,7 @@ netgen <-
     )
 
     M <- res$output
-    #M <- scan(file.path(tmp),  quiet = TRUE)
     M <- matrix(M, sqrt(length(M)))
     igraph::graph_from_adjacency_matrix(M)
 
-    #M <- read.table(
-    #  "output_gen/network.txt",
-    #  stringsAsFactors = FALSE,
-    #  col.names = c("from", "to")
-    #)
-    ## Return a basic igraph graph
-    ## User can always toogle as.directed, as.undirected
-    #graph.data.frame(M, directed = FALSE)
   }
-#
-#
-#  -------- end network generation ---------
-
-
-
-
-#  -------- plot network and adjacency matrix  -----------
-#
-#
-
-#G=nx.Graph()
-#array = np.loadtxt("./output_gen/"+name+"_net.txt")
-#G.add_edges_from(array)

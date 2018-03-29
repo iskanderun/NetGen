@@ -53,8 +53,8 @@ Network `igraph` objects can also be plotted using the standard `igraph` plottin
 
 ```{r}
 plot(network, vertex.size= 0, vertex.label=NA, 
-     edge.color = rgb(.22,0,1,.01), vertex.shape="none", 
-     edge.curved =TRUE)
+     edge.color = rgb(.22,0,1,.02), vertex.shape="none", 
+     edge.curved =TRUE, layout = layout_with_kk)
 ```
 
 

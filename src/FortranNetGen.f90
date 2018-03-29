@@ -24,8 +24,6 @@ REAL, INTENT(IN), DIMENSION(2) :: rewindprobs
 REAL, INTENT(IN), DIMENSION(7) :: mod_probs
 INTEGER, ALLOCATABLE :: degree(:)
 INTEGER, DIMENSION(200) :: modsize_sav
-!INTEGER :: iseed(12)
-!CHARACTER*4 node1,node2
 CHARACTER*20 namenet
 CHARACTER*50 name_network,prop_network,adj_network
 namenet = "default"
@@ -249,19 +247,7 @@ do i=1,n
     end if
 end do
 
-! save network to file
-!OPEN(UNIT=10,FILE='network.txt',STATUS='UNKNOWN')
-!do i=1,n
-!  CALL NUMBSTR(4,i,node1)
-!  do j=i+1,n
-!    if(a(i,j)==1) then
-!      CALL NUMBSTR(4,j,node2)
-!            write(10,110) node1,node2
-!        end if
-!   end do
-!end do
-!CLOSE(10)
-!110 FORMAT(A4,1x,A4)
+
 
 
 !write(6,*) '----------------------------------------- '
@@ -289,12 +275,6 @@ if (nclusters /= 1) then
 end if
 
 
-!CALL RANDOM_SEED(get=iseed)
-!OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD', POSITION='REWIND')
-!WRITE (50,*) iseed
-!close(50)
-
-!write(6,*) '----------------------------------------- '
 
 do i=1,n
   do j=1,n
@@ -302,22 +282,9 @@ do i=1,n
   end do
 end do
 
-! write adjacency matrix
-!OPEN(UNIT=11,FILE=TRIM(namenet),STATUS='unknown')
-!do i=1,n
-!    write(11,900) (a(i,j),j=1,n)
-!end do
-!CLOSE(11)
-!900 FORMAT(2000(i1,1x))
-
 DEALLOCATE(a,degree)
 !CLOSE(15)
 
-! save info on log file
-!OPEN(UNIT=20,FILE='log_gen.txt',STATUS='UNKNOWN')
-!WRITE(20,901) namenet,nettype,n,modav,avk,prew,prewloc
-!CLOSE(20)
-!901 FORMAT(A15,2x,i3,5x,i5,5x,i5,7x,F6.2,5x,F6.2,8x,F6.2)
 
 end subroutine SubNetGen
 

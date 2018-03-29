@@ -149,11 +149,7 @@ if(neigh_crit == 1) then
     w = 0.0
 end if
 
-! initialize random number generator
-!OPEN(UNIT=50,FILE='./input/seed.in',STATUS='OLD')
-!READ(50,*) iseed
-!CLOSE(50)
-!CALL RANDOM_SEED(put=iseed)
+
 CALL init_random_seed()
 
 

@@ -14,4 +14,5 @@ quicktest.R
 ^src/.*\.mod$
 ^codecov\.yml$
 ^ignore$
+^.zenodo\.json$
 
