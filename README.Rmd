@@ -3,6 +3,7 @@ output: github_document
 ---
 
 [![Travis-CI Build Status](https://travis-ci.org/cboettig/NetGen.svg?branch=master)](https://travis-ci.org/cboettig/NetGen)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/cboettig/NetGen?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/NetGen)
 [![Coverage Status](https://img.shields.io/codecov/c/github/cboettig/NetGen/master.svg)](https://codecov.io/github/cboettig/NetGen?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/NetGen)](https://cran.r-project.org/package=NetGen)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)

@@ -1,6 +1,8 @@
 
 [![Travis-CI Build
 Status](https://travis-ci.org/cboettig/NetGen.svg?branch=master)](https://travis-ci.org/cboettig/NetGen)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/cboettig/NetGen?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/NetGen)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/cboettig/NetGen/master.svg)](https://codecov.io/github/cboettig/NetGen?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/NetGen)](https://cran.r-project.org/package=NetGen)
@@ -33,9 +35,9 @@ network <- netgen(n_modav = c(250, 20),
                   net_rewire = c(0.07,0.2),
                   mod_probs = c(0.2, 0.0, 0.3, 0.3, 0.2, 0.0, 0.0))
 #> 
-#> module count = 2 
-#> average degree = 10.404 
-#> average module size = 125 
+#> module count = 4 
+#> average degree = 8.716 
+#> average module size = 62.5 
 #> number of components = 1 
 #> size of largest component = 250
 ```
@@ -75,7 +77,7 @@ number of modules:
 ``` r
 community <- cluster_edge_betweenness(as.undirected(network))
 length(groups(community))
-#> [1] 6
+#> [1] 4
 ```
 
 We can check the size of each module as well:
@@ -83,13 +85,13 @@ We can check the size of each module as well:
 ``` r
 module_sizes <- sapply(groups(community), length)
 module_sizes
-#>   1   2   3   4   5   6 
-#> 149   4  91   2   2   2
+#>  1  2  3  4 
+#> 60 71 55 64
 mean(module_sizes)
-#> [1] 41.66667
+#> [1] 62.5
 ```
 
 ``` r
 mean(degree(as.undirected(network)))
-#> [1] 10.408
+#> [1] 8.744
 ```

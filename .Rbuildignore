@@ -16,3 +16,4 @@ quicktest.R
 ^ignore$
 ^.zenodo\.json$
 
+^appveyor\.yml$

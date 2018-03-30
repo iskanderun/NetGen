@@ -1,5 +1,5 @@
 Package: NetGen
-Version: 0.0.0.9000
+Version: 0.1.0
 Title: Simulate and Sample from Ecological Networks
 Description: Generate a wide range of random networks given expected degree, modularity,
              and structure.  Simulations and sampling routines are implemented in FORTRAN,
