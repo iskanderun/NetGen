@@ -1,3 +1,8 @@
+Dear CRAN Maintainers,
+
+We are pleased to provide an intial Release of NetGen for consideration for the CRAN
+repository. 
+
 ## Test environments
 
 * local OS X install, R 3.4.4
