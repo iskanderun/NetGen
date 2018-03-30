@@ -41,11 +41,33 @@ netgen <-
       as.integer(net_type),
       as.single(net_degree),
       as.single(net_rewire),
-      as.single(mod_probs)
+      as.single(mod_probs),
+      modcount = integer(1L)
     )
+
+
+
+    cluster_stats(res$output, res$modcount)
 
     M <- res$output
     M <- matrix(M, sqrt(length(M)))
     igraph::graph_from_adjacency_matrix(M)
 
   }
+
+cluster_stats <- function(M, modcount){
+  n = sqrt(length(M))
+  res <- .Fortran("clusters",
+                  a = as.integer(M),
+                  n = as.integer(n),
+                  maxsize = integer(1L),
+                  icount = integer(1L))
+
+  message(paste(
+  '\nmodule count =', modcount,
+  '\naverage degree =', sum(M) / n,
+  '\naverage module size =', n / modcount,
+  '\nnumber of components =', res$icount,
+  '\nsize of largest component =', res$maxsize))
+}
+

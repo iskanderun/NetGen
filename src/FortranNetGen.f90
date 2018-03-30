@@ -13,9 +13,10 @@ END MODULE globals
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-SUBROUTINE subnetgen(output,n_modav,cutoffs,nettype,avkk,rewindprobs,mod_probs)
+SUBROUTINE subnetgen(output,n_modav,cutoffs,nettype,avkk,rewindprobs,mod_probs, modulecount)
 USE globals
 INTEGER output(*)
+INTEGER modulecount(*)
 INTEGER, INTENT(IN), DIMENSION(2) :: n_modav
 INTEGER, INTENT(IN), DIMENSION(2) :: cutoffs
 INTEGER, INTENT(IN) :: nettype
@@ -274,7 +275,7 @@ if (nclusters /= 1) then
 !    write(6,*)
 end if
 
-
+modulecount(1) = modcount
 
 do i=1,n
   do j=1,n

@@ -35,8 +35,8 @@ This is a basic example which generates a network. See `?netgen` for documentati
 
 ```{r example}
 library(NetGen)
-network <- netgen(n_modav = c(250, 10), 
-                  cutoffs = c(40, 10), 
+network <- netgen(n_modav = c(250, 20), 
+                  cutoffs = c(50, 5), 
                   net_type = 41, 
                   net_degree = 10,
                   net_rewire = c(0.07,0.2),
@@ -52,9 +52,28 @@ adj_plot(network)
 Network `igraph` objects can also be plotted using the standard `igraph` plotting routines, for example:
 
 ```{r}
+library(igraph)
 plot(network, vertex.size= 0, vertex.label=NA, 
      edge.color = rgb(.22,0,1,.02), vertex.shape="none", 
      edge.curved =TRUE, layout = layout_with_kk)
 ```
 
+And we can compute common statistics from igraph as well.  Here we confirm that clustering by "edge betweeness" gives us the expected number of modules:
 
+```{r}
+community <- cluster_edge_betweenness(as.undirected(network))
+length(groups(community))
+```
+
+We can check the size of each module as well:
+
+```{r}
+module_sizes <- sapply(groups(community), length)
+module_sizes
+mean(module_sizes)
+```
+
+
+```{r}
+mean(degree(as.undirected(network)))
+```

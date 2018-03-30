@@ -26,12 +26,18 @@ documentation describing the parameter arguments.
 
 ``` r
 library(NetGen)
-network <- netgen(n_modav = c(250, 10), 
-                  cutoffs = c(40, 10), 
+network <- netgen(n_modav = c(250, 20), 
+                  cutoffs = c(50, 5), 
                   net_type = 41, 
                   net_degree = 10,
                   net_rewire = c(0.07,0.2),
                   mod_probs = c(0.2, 0.0, 0.3, 0.3, 0.2, 0.0, 0.0))
+#> 
+#> module count = 2 
+#> average degree = 10.404 
+#> average module size = 125 
+#> number of components = 1 
+#> size of largest component = 250
 ```
 
 We can plot the resulting `igraph` as an adjacency matrix:
@@ -46,9 +52,44 @@ Network `igraph` objects can also be plotted using the standard `igraph`
 plotting routines, for example:
 
 ``` r
+library(igraph)
+#> 
+#> Attaching package: 'igraph'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     decompose, spectrum
+#> The following object is masked from 'package:base':
+#> 
+#>     union
 plot(network, vertex.size= 0, vertex.label=NA, 
-     edge.color = rgb(.22,0,1,.01), vertex.shape="none", 
-     edge.curved =TRUE)
+     edge.color = rgb(.22,0,1,.02), vertex.shape="none", 
+     edge.curved =TRUE, layout = layout_with_kk)
 ```
 
 ![](README-unnamed-chunk-3-1.png)<!-- -->
+
+And we can compute common statistics from igraph as well. Here we
+confirm that clustering by “edge betweeness” gives us the expected
+number of modules:
+
+``` r
+community <- cluster_edge_betweenness(as.undirected(network))
+length(groups(community))
+#> [1] 6
+```
+
+We can check the size of each module as well:
+
+``` r
+module_sizes <- sapply(groups(community), length)
+module_sizes
+#>   1   2   3   4   5   6 
+#> 149   4  91   2   2   2
+mean(module_sizes)
+#> [1] 41.66667
+```
+
+``` r
+mean(degree(as.undirected(network)))
+#> [1] 10.408
+```
