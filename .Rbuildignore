@@ -17,3 +17,4 @@ quicktest.R
 ^.zenodo\.json$
 
 ^appveyor\.yml$
+^cran-comments\.md$
