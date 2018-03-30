@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.httr-oauth
+.DS_Store
+*.o
+*.so
+*.mod
+output_gen/
+Package-New
+

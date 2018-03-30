@@ -1,0 +1,80 @@
+---
+output: github_document
+---
+
+[![Travis-CI Build Status](https://travis-ci.org/cboettig/NetGen.svg?branch=master)](https://travis-ci.org/cboettig/NetGen)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/cboettig/NetGen?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/NetGen)
+[![Coverage Status](https://img.shields.io/codecov/c/github/cboettig/NetGen/master.svg)](https://codecov.io/github/cboettig/NetGen?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/NetGen)](https://cran.r-project.org/package=NetGen)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# NetGen
+
+
+## Installation
+
+You can install NetGen from github with:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("cboettig/NetGen")
+```
+
+## Example
+
+This is a basic example which generates a network. See `?netgen` for documentation describing the parameter arguments.  
+
+```{r example}
+library(NetGen)
+network <- netgen(n_modav = c(250, 20), 
+                  cutoffs = c(50, 5), 
+                  net_type = 41, 
+                  net_degree = 10,
+                  net_rewire = c(0.07,0.2),
+                  mod_probs = c(0.2, 0.0, 0.3, 0.3, 0.2, 0.0, 0.0))
+```
+
+We can plot the resulting `igraph` as an adjacency matrix:
+
+```{r}
+adj_plot(network)
+```
+
+Network `igraph` objects can also be plotted using the standard `igraph` plotting routines, for example:
+
+```{r}
+library(igraph)
+plot(network, vertex.size= 0, vertex.label=NA, 
+     edge.color = rgb(.22,0,1,.02), vertex.shape="none", 
+     edge.curved =TRUE, layout = layout_with_kk)
+```
+
+And we can compute common statistics from igraph as well.  Here we confirm that clustering by "edge betweeness" gives us the expected number of modules:
+
+```{r}
+community <- cluster_edge_betweenness(as.undirected(network))
+length(groups(community))
+```
+
+We can check the size of each module as well:
+
+```{r}
+module_sizes <- sapply(groups(community), length)
+module_sizes
+mean(module_sizes)
+```
+
+
+```{r}
+mean(degree(as.undirected(network)))
+```

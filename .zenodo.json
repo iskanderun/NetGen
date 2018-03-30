@@ -1,0 +1,32 @@
+
+{
+  "title": "NetGen: Simulate and Sample from Ecological Networks",
+  "description": "Generate a wide range of random networks given expected degree, modularity, and structure. Simulations and sampling routines are implemented in FORTRAN,  providing efficient generation times even for large networks. Basic visualization methods also included.",
+  "creators": [
+    {
+      "name": "Marcus A. M. de Aguiar",
+      "affiliation": "Universidade Estadual de Campinas, Unicamp, Campinas, São Paulo, Brazil"
+    },
+    {
+      "name": "Erica Newman",
+      "affiliation": "School of Natural Resources and the Environment, University of Arizona, Tucson, AZ, USA",
+      "orcid": "0000-0001-6433-8594"
+    },
+    {
+      "name": "Carl Boettiger",
+      "affiliation": "Department of Environmental Science, Policy, and Management, University of California, Berkeley, CA, USA",
+      "orcid": "0000-0003-4580-091X"
+    }
+  ],
+  "keywords": [
+    "networks",
+    "ecology",
+    "food webs",
+    "modularity",
+    "nestedness",
+    "simulation",
+    "sampling"
+  ],
+  "license": "BSD-3-Clause",
+  "upload_type": "software"
+}

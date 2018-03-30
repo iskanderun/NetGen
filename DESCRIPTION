@@ -1,0 +1,29 @@
+Package: NetGen
+Version: 0.1.0
+Title: Simulate and Sample from Ecological Networks
+Description: Generate a wide range of random networks given expected degree, modularity,
+             and structure.  Simulations and sampling routines are implemented in FORTRAN,
+             providing efficient generation times even for large networks. Basic visualization
+             methods also included.  
+Authors@R: c(person("Marcus", "de Aguiar", 
+                    role = c("aut", "cph")),
+             person("Erica", "Newman", 
+                    role = c("aut"), 
+                    comment = c(ORCID = "0000-0001-6433-8594")), 
+             person("Carl", "Boettiger", 
+                    email = "cboettig@gmail.com",
+                    role = c("aut", "cre"),
+                    comment = c(ORCID = "0000-0003-4580-091X")))
+License: GPL-3
+URL: https://github.com/cboettig/NetGen
+BugReports: https://github.com/cboettig/NetGen/issues
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1
+Suggests: testthat,
+    covr
+Imports: igraph, ggplot2
+
+
