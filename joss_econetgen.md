@@ -60,7 +60,7 @@ archived to Zenodo with the linked DOI: [doi.org/10.5281/zenodo.1212558]
 
 # Acknowledgements
 
-This work was conducted as a part of the Ecological Network Dynamics Working Group at the National Institute for Mathematical and Biological Synthesis (NiMBIOS), sponsored by the National Science Foundation through NSF Award #DBI-1300426, with additional support from The University of Tennessee, Knoxville. MAMA was partly supported by FAPESP (grants #2016/06054-3 and # 2016/01343-7) and CNPq (grant #302049/2015-0). We thank NiMBIOS workshop organizers D.H. Hembry, J.L. O'Donnell, T. Poisot, and P. Guimarães, Jr.. 
+This work was conducted as a part of the Ecological Network Dynamics Working Group at the National Institute for Mathematical and Biological Synthesis (NiMBIOS), sponsored by the National Science Foundation through NSF Award #DBI-1300426, with additional support from The University of Tennessee, Knoxville. MAMA was partly supported by FAPESP (grants #2016/06054-3 and # 2016/01343-7) and CNPq (grant #302049/2015-0). We thank NiMBIOS workshop organizers D.H. Hembry, J.L. O'Donnell, T. Poisot, and P. Guimarães, Jr. 
 
 
 # References
